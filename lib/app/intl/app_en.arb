@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "unknownError": "Unknown error",
+  "noInternetConnection": "No internet connection",
+  "internalServerError": "Internal server error",
+  "fieldIsRequired": "Field is required",
+  "nameIsTooLong": "Name is too long",
+  "nameIsTooShort": "Name is too short",
+  "emailIsTooLong": "Email is too long",
+  "emailContainsWhitespace": "Email contains empty space",
+  "emailIsInvalid": "Email is invalid",
+  "passwordContainsWhitespace": "Password contains empty space",
+  "passwordIsTooShort": "Password is too short",
+  "passwordIsTooLong": "Password is too long",
+  "confirm": "Confirm",
+  "nevermind": "Nevermind",
+  "ok": "OK",
+  "search": "Search",
+  "cancel": "Cancel"
+}
