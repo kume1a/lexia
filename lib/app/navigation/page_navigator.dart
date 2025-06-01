@@ -10,5 +10,11 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 class PageNavigator {
   void pop<T>({T? result}) => GlobalNavigator.maybePop(result: result);
 
-  void toMain() => GlobalNavigator.pushNamedAndRemoveAll(Routes.welcome);
+  void toWelcome() => GlobalNavigator.pushNamedAndRemoveAll(Routes.welcome);
+
+  void toSignIn() => GlobalNavigator.pushNamedAndRemoveAll(Routes.signIn);
+
+  void toSignUp() => GlobalNavigator.pushNamedAndRemoveAll(Routes.signUp);
+
+  void toMain() => GlobalNavigator.pushNamedAndRemoveAll(Routes.main);
 }

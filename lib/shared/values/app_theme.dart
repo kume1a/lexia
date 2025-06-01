@@ -42,7 +42,7 @@ abstract final class AppTheme {
       ),
     ),
     appBarTheme: const AppBarTheme(centerTitle: true, titleTextStyle: TextStyle(fontSize: 14)),
-    progressIndicatorTheme: const ProgressIndicatorThemeData(linearTrackColor: Palette.secondaryDark),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(linearTrackColor: Palette.secondary),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Palette.primaryContainer,
@@ -80,12 +80,7 @@ abstract final class AppTheme {
       visualDensity: VisualDensity.compact,
     ),
     extensions: [
-      AppThemeExtension(
-        elSecondary: Palette.elSecondary,
-        elTertiary: Palette.elTertiary,
-        success: Palette.success,
-        bgPopup: Palette.bgPopup,
-      ),
+      AppThemeExtension(elSecondary: Palette.elSecondary, success: Palette.success, bgPopup: Palette.bgPopup),
     ],
   );
 }

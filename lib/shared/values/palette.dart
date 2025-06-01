@@ -4,19 +4,17 @@ class Palette {
   static const error = Color(0xFFFB3836);
   static const success = Color(0xFF60DA8C);
 
-  static const surface = Color(0xFF060606);
-  static const onSurface = Color(0xFFFFFFFF);
-  static const primary = Color(0xFF140531);
-  static const secondary = Color(0xFF7001FB);
+  static const surface = Colors.white;
+  static const onSurface = Color(0xFF222222);
+  static const secondary = Color(0xFF8E5C2C);
   static const onSecondary = Colors.white;
-  static const secondaryDark = Color(0xFF923DFD);
-  static const secondaryLight = Color.fromARGB(255, 155, 83, 243);
+  static const secondaryDark = Color(0xFF55371a);
+  static const secondaryLight = Color(0xFFa57d56);
 
-  static const primaryContainer = Color(0xFF140531);
-  static const secondaryContainer = Color(0xFF332849);
-  static const bgPopup = Color(0xFF101010);
+  static const primaryContainer = Color(0xFFe8ded5);
+  static const secondaryContainer = Color(0xFFE3E6F3);
+  static const bgPopup = Colors.white;
 
-  static const elPrimary = Color(0xFFFFFFFF);
-  static const elSecondary = Color(0xFF81818D);
-  static const elTertiary = Color(0xFF4d4d54);
+  static const elPrimary = Color(0xFF212121);
+  static const elSecondary = Color(0xFF757575);
 }
