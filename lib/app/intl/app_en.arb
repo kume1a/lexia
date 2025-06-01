@@ -16,5 +16,9 @@
   "nevermind": "Nevermind",
   "ok": "OK",
   "search": "Search",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "email": "Email",
+  "password": "Password",
+  "signIn": "Sign in",
+  "signUp": "Sign up"
 }
