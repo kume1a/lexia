@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'app_theme_extension.dart';
 import 'palette.dart';
 
-final _defaultButtonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
-const _defaultButtonPadding = EdgeInsets.symmetric(vertical: 12, horizontal: 16);
+final _defaultButtonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
+const _defaultButtonPadding = EdgeInsets.all(16);
 
-final _defaultInputBorderRadius = BorderRadius.circular(32);
+final _defaultInputBorderRadius = BorderRadius.circular(10);
 
 abstract final class AppTheme {
   static final lightTheme = ThemeData(
@@ -55,9 +55,9 @@ abstract final class AppTheme {
       ),
       isDense: true,
       constraints: const BoxConstraints(minHeight: 1),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      hintStyle: const TextStyle(fontSize: 14, color: Palette.elSecondary),
-      labelStyle: const TextStyle(fontSize: 14, color: Palette.elSecondary),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      hintStyle: const TextStyle(fontSize: 13, color: Palette.elSecondary),
+      labelStyle: const TextStyle(fontSize: 13, color: Palette.elSecondary),
       alignLabelWithHint: true,
       errorMaxLines: 2,
     ),

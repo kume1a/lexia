@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../app/configuration/app_environment.dart';
+import '../../../app/navigation/page_navigator.dart';
 
 part 'sign_in_state.freezed.dart';
 
@@ -27,7 +28,12 @@ extension SignInCubitX on BuildContext {
 
 @injectable
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit() : super(SignInState.initial());
+  SignInCubit(this._pageNavigator) : super(SignInState.initial());
+
+  final PageNavigator _pageNavigator;
+
+  final emailFieldController = TextEditingController();
+  final passwordFieldController = TextEditingController();
 
   void onEmailChanged(String email) {
     emit(state.copyWith(email: Email(email)));
@@ -45,12 +51,19 @@ class SignInCubit extends Cubit<SignInState> {
     emit(state.copyWith(isSubmitting: false, validateForm: false));
   }
 
-  void onDevSignIn() {
-    emit(
-      state.copyWith(
-        email: Email(AppEnvironment.devSignInEmail),
-        password: Password(AppEnvironment.devSignInPassword),
-      ),
-    );
+  Future<void> onDevSignIn() async {
+    final email = AppEnvironment.devSignInEmail;
+    final password = AppEnvironment.devSignInPassword;
+
+    emit(state.copyWith(email: Email(email), password: Password(password)));
+
+    emailFieldController.text = email;
+    passwordFieldController.text = password;
+
+    return onSubmit();
+  }
+
+  void onSignUpPressed() {
+    _pageNavigator.toSignUp();
   }
 }

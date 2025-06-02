@@ -14,7 +14,7 @@ class PageNavigator {
 
   void toSignIn() => GlobalNavigator.pushNamedAndRemoveAll(Routes.signIn);
 
-  void toSignUp() => GlobalNavigator.pushNamedAndRemoveAll(Routes.signUp);
+  void toSignUp() => GlobalNavigator.pushNamed(Routes.signUp);
 
   void toMain() => GlobalNavigator.pushNamedAndRemoveAll(Routes.main);
 }

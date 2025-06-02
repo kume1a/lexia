@@ -2,13 +2,13 @@ import 'package:common_widgets/common_widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app/intl/app_localizations.dart';
 import '../../../app/intl/extension/error_intl.dart';
 import '../../../shared/ui/field/email_field.dart';
 import '../../../shared/ui/field/password_field.dart';
 import '../../../shared/ui/loading_text_button.dart';
-import '../../../shared/ui/logo_header.dart';
 import '../state/sign_in_state.dart';
 
 class SignInForm extends StatelessWidget {
@@ -18,62 +18,79 @@ class SignInForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return TapOutsideToClearFocus(
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(16, 52, 16, 12),
-              child: BlocBuilder<SignInCubit, SignInState>(
-                buildWhen: (previous, current) => previous.validateForm != current.validateForm,
-                builder: (_, state) {
-                  return ValidatedForm(
-                    showErrors: state.validateForm,
-                    child: Column(
-                      children: [
-                        const Spacer(flex: 2),
-                        const LogoHeaderMedium(),
-                        const SizedBox(height: 8),
-                        if (kDebugMode)
-                          TextButton(
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(16.w, 52.h, 16.w, 12.w),
+            child: BlocBuilder<SignInCubit, SignInState>(
+              buildWhen: (previous, current) => previous.validateForm != current.validateForm,
+              builder: (_, state) {
+                return ValidatedForm(
+                  showErrors: state.validateForm,
+                  child: Column(
+                    children: [
+                      const Spacer(flex: 2),
+                      SizedBox(height: 8.h),
+                      Text(
+                        l.signIn,
+                        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20.h),
+                      if (kDebugMode)
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.h),
+                          child: TextButton(
                             onPressed: context.signInCubit.onDevSignIn,
                             child: const Text('Dev SignIn'),
                           ),
-                        const Spacer(),
-                        EmailField(
-                          onChanged: context.signInCubit.onEmailChanged,
-                          validator: (_) =>
-                              context.signInCubit.state.email.errToString((f) => f.translate(l)),
                         ),
-                        const SizedBox(height: 16),
-                        PasswordField(
-                          onChanged: context.signInCubit.onPasswordChanged,
-                          validator: (_) =>
-                              context.signInCubit.state.password.errToString((f) => f.translate(l)),
+                      EmailField(
+                        controller: context.signInCubit.emailFieldController,
+                        onChanged: context.signInCubit.onEmailChanged,
+                        validator: (_) => context.signInCubit.state.email.errToString((f) => f.translate(l)),
+                      ),
+                      SizedBox(height: 12.h),
+                      PasswordField(
+                        controller: context.signInCubit.passwordFieldController,
+                        onChanged: context.signInCubit.onPasswordChanged,
+                        validator: (_) =>
+                            context.signInCubit.state.password.errToString((f) => f.translate(l)),
+                      ),
+                      SizedBox(height: 20.h),
+                      SizedBox(
+                        width: double.infinity,
+                        child: LoadingTextButton(
+                          onPressed: context.signInCubit.onSubmit,
+                          label: l.signIn,
+                          isLoading: state.isSubmitting,
                         ),
-                        const Spacer(),
-                        SizedBox(
-                          width: double.infinity,
-                          child: LoadingTextButton(
-                            onPressed: context.signInCubit.onSubmit,
-                            label: l.signIn,
-                            isLoading: state.isSubmitting,
+                      ),
+                      SizedBox(height: 12.h),
+                      Text("Don't have an account?"),
+                      GestureDetector(
+                        onTap: context.signInCubit.onSignUpPressed,
+                        child: Text(
+                          l.signUp,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 12),
-                        const Spacer(flex: 3),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                      const Spacer(flex: 3),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -17,7 +17,7 @@ class LogoHeaderMedium extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _LogoHeader(iconSize: 36, fontSize: 24);
+    return const _LogoHeader(iconSize: 36, fontSize: 16);
   }
 }
 
