@@ -18,7 +18,7 @@ Route<dynamic> routeFactory(RouteSettings settings) {
 }
 
 Route _createWelcomeRoute(RouteSettings settings) {
-  return MaterialPageRoute(builder: (_) => WelcomePage(), settings: settings);
+  return MaterialPageRoute(builder: (_) => const WelcomePage(), settings: settings);
 }
 
 Route _createSignInRoute(RouteSettings settings) {

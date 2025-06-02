@@ -9,12 +9,10 @@ const _defaultButtonPadding = EdgeInsets.symmetric(vertical: 12, horizontal: 16)
 final _defaultInputBorderRadius = BorderRadius.circular(32);
 
 abstract final class AppTheme {
-  static final darkTheme = ThemeData(
+  static final lightTheme = ThemeData(
     useMaterial3: true,
-    brightness: Brightness.dark,
     splashFactory: NoSplash.splashFactory,
     colorScheme: ColorScheme.fromSeed(
-      brightness: Brightness.dark,
       seedColor: Palette.secondary,
       secondary: Palette.secondary,
       onSecondary: Palette.onSecondary,
@@ -41,7 +39,10 @@ abstract final class AppTheme {
         borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
       ),
     ),
-    appBarTheme: const AppBarTheme(centerTitle: true, titleTextStyle: TextStyle(fontSize: 14)),
+    appBarTheme: const AppBarTheme(
+      centerTitle: true,
+      titleTextStyle: TextStyle(fontSize: 14, color: Palette.elPrimary),
+    ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(linearTrackColor: Palette.secondary),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

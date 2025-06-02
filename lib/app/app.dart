@@ -26,7 +26,7 @@ class App extends StatelessWidget {
           child: MaterialApp(
             title: 'Lexia',
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.darkTheme,
+            theme: AppTheme.lightTheme,
             initialRoute: Routes.root,
             navigatorObservers: [GNObserver()],
             onGenerateRoute: routeFactory,
