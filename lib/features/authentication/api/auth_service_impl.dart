@@ -1,9 +1,15 @@
 import 'package:common_models/common_models.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../entities/user/model/user.dart';
 import '../model/auth_payload.dart';
 import '../model/sign_up_error.dart';
 import 'auth_service.dart';
+
+AuthPayload fakeAuthPayload(String email) => AuthPayload(
+  accessToken: 'fake_access_token',
+  user: User(id: 'fake_user_id', createdAt: DateTime.now(), username: 'fake_username', email: email),
+);
 
 @LazySingleton(as: AuthService)
 class AuthServiceImpl implements AuthService {
@@ -12,10 +18,7 @@ class AuthServiceImpl implements AuthService {
     required String email,
     required String password,
   }) async {
-    return Future.delayed(
-      const Duration(seconds: 2),
-      () => right(AuthPayload(accessToken: 'fake_access_token', userId: 'fake_user_id', email: email)),
-    );
+    return Future.delayed(const Duration(seconds: 2), () => right(fakeAuthPayload(email)));
   }
 
   @override
@@ -23,10 +26,7 @@ class AuthServiceImpl implements AuthService {
     required String email,
     required String password,
   }) async {
-    return Future.delayed(
-      const Duration(seconds: 2),
-      () => right(AuthPayload(accessToken: 'fake_access_token', userId: 'fake_user_id', email: email)),
-    );
+    return Future.delayed(const Duration(seconds: 2), () => right(fakeAuthPayload(email)));
   }
 
   @override

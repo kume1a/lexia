@@ -1,5 +1,7 @@
 import 'package:common_models/common_models.dart';
 
+import '../../../features/authentication/model/sign_in_error.dart';
+import '../../../features/authentication/model/sign_up_error.dart';
 import '../app_localizations.dart';
 
 extension NetworkCallErrorIntl on NetworkCallError {
@@ -51,6 +53,26 @@ extension RepeatPasswordErrorIntl on RepeatedPasswordError {
       orElse: () => '',
       empty: () => l.fieldIsRequired,
       doesNotMatch: () => l.passwordsDoNotMatch,
+    );
+  }
+}
+
+extension SignInErrorIntl on SignInError {
+  String translate(AppLocalizations l) {
+    return when(
+      unknown: () => l.unknownError,
+      network: () => l.noInternetConnection,
+      invalidEmailOrPassword: () => l.invalidEmailOrPassword,
+    );
+  }
+}
+
+extension SignUpErrorIntl on SignUpError {
+  String translate(AppLocalizations l) {
+    return when(
+      emailAlreadyInUse: () => l.emailAlreadyInUse,
+      unknown: () => l.unknownError,
+      network: () => l.noInternetConnection,
     );
   }
 }

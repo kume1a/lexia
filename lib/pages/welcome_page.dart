@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../app/di/register_dependencies.dart';
 import '../app/intl/app_localizations.dart';
-import '../app/navigation/page_navigator.dart';
+import '../features/welcome/welcome_state.dart';
 import '../shared/values/app_theme_extension.dart';
 import '../shared/values/assets.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(lazy: false, create: (_) => getIt<WelcomeCubit>(), child: const _Content());
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +55,7 @@ class WelcomePage extends StatelessWidget {
                 iconSize: 24.sp,
                 foregroundColor: theme.colorScheme.onSecondary,
               ),
-              onPressed: () => getIt<PageNavigator>().toSignIn(),
+              onPressed: context.welcomeCubit.onNextButtonPressed,
               icon: Icon(Icons.chevron_right),
             ),
           ),

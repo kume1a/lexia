@@ -5,7 +5,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../app/configuration/app_environment.dart';
+import '../../../app/intl/extension/error_intl.dart';
 import '../../../app/navigation/page_navigator.dart';
+import '../../../shared/ui/toast_notifier.dart';
+import '../api/after_auth.dart';
+import '../api/auth_service.dart';
 
 part 'sign_in_state.freezed.dart';
 
@@ -28,9 +32,13 @@ extension SignInCubitX on BuildContext {
 
 @injectable
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit(this._pageNavigator) : super(SignInState.initial());
+  SignInCubit(this._pageNavigator, this._authService, this._afterAuth, this._toastNotifier)
+    : super(SignInState.initial());
 
   final PageNavigator _pageNavigator;
+  final AuthService _authService;
+  final AfterAuth _afterAuth;
+  final ToastNotifier _toastNotifier;
 
   final emailFieldController = TextEditingController();
   final passwordFieldController = TextEditingController();
@@ -52,7 +60,16 @@ class SignInCubit extends Cubit<SignInState> {
 
     emit(state.copyWith(isSubmitting: true));
 
-    await Future.delayed(const Duration(seconds: 2));
+    await _authService
+        .signInWithEmailAndPassword(email: state.email.getOrThrow, password: state.password.getOrThrow)
+        .awaitFold(
+          (err) {
+            _toastNotifier.error(description: (l) => err.translate(l), title: (l) => l.error);
+          },
+          (payload) async {
+            await _afterAuth(payload: payload);
+          },
+        );
 
     emit(state.copyWith(isSubmitting: false));
   }

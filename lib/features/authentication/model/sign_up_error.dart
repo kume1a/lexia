@@ -9,6 +9,4 @@ class SignUpError with _$SignUpError {
   const factory SignUpError.unknown() = _unknown;
 
   const factory SignUpError.emailAlreadyInUse() = _emailAlreadyInUse;
-
-  const factory SignUpError.invalidEmailOrPassword() = _invalidEmail;
 }

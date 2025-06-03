@@ -186,6 +186,15 @@ packages:
       url: "https://github.com/kume1a/flutter_common.git"
     source: git
     version: "0.0.4"
+  common_network_components:
+    dependency: "direct main"
+    description:
+      path: "packages/common_network_components"
+      ref: HEAD
+      resolved-ref: "8da6acef12b4f2c31ec96f13602a6478f9a591dd"
+      url: "https://github.com/kume1a/flutter_common.git"
+    source: git
+    version: "0.0.7"
   common_utilities:
     dependency: "direct main"
     description:

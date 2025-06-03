@@ -25,5 +25,8 @@
   "welcomeCaption": "Master your vocabulary, your way.",
   "repeatPassword": "Repeat Password",
   "username": "Username",
-  "passwordsDoNotMatch": "Passwords do not match"
+  "passwordsDoNotMatch": "Passwords do not match",
+  "invalidEmailOrPassword": "Invalid email or password",
+  "emailAlreadyInUse": "Email already in use",
+  "error": "Error"
 }
