@@ -7,6 +7,7 @@ abstract final class Assets {
 
   static const imageLibrary = '$_images/books.jpg';
 
+  static const svgHome = '$_icons/home.svg';
   static const svgSearch = '$_icons/search.svg';
   static const svgEmail = '$_icons/email.svg';
   static const svgLock = '$_icons/lock.svg';
