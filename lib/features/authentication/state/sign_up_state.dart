@@ -3,10 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 
 import '../../../app/configuration/app_environment.dart';
+import '../../../app/intl/extension/error_intl.dart';
 import '../../../app/navigation/page_navigator.dart';
+import '../../../shared/ui/toast_notifier.dart';
+import '../api/after_auth.dart';
+import '../api/auth_service.dart';
 
 part 'sign_up_state.freezed.dart';
 
@@ -37,9 +40,13 @@ extension SignUpCubitX on BuildContext {
 
 @injectable
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(this._pageNavigator) : super(SignUpState.initial());
+  SignUpCubit(this._pageNavigator, this._authService, this._afterAuth, this._toastNotifier)
+    : super(SignUpState.initial());
 
   final PageNavigator _pageNavigator;
+  final AuthService _authService;
+  final AfterAuth _afterAuth;
+  final ToastNotifier _toastNotifier;
 
   final usernameFieldController = TextEditingController();
   final emailFieldController = TextEditingController();
@@ -71,11 +78,6 @@ class SignUpCubit extends Cubit<SignUpState> {
   Future<void> onSubmit() async {
     emit(state.copyWith(validateForm: true));
 
-    Logger.root.info(
-      'form is valid: '
-      '${!state.email.invalid && !state.username.invalid && !state.password.invalid && !state.repeatedPassword.invalid}',
-    );
-
     if (state.email.invalid ||
         state.username.invalid ||
         state.password.invalid ||
@@ -83,31 +85,24 @@ class SignUpCubit extends Cubit<SignUpState> {
       return;
     }
 
-    Logger.root.info('SignUpCubit.onSubmit() - form is valid');
-
     emit(state.copyWith(isSubmitting: true));
 
-    Logger.root.info('emitting isSubmitting: true');
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    Logger.root.info('emitting isSubmitting: false');
+    await _authService
+        .signUpWithEmailAndPassword(
+          username: state.username.getOrThrow,
+          email: state.email.getOrThrow,
+          password: state.password.getOrThrow,
+        )
+        .awaitFold(
+          (err) {
+            _toastNotifier.error(description: (l) => err.translate(l), title: (l) => l.error);
+          },
+          (payload) async {
+            await _afterAuth(payload: payload);
+          },
+        );
 
     emit(state.copyWith(isSubmitting: false));
-
-    // emit(state.copyWith(isSubmitting: true));
-    // final result = await _authService.signUp(
-    //   username: state.username.getOrThrow,
-    //   email: state.email.getOrThrow,
-    //   password: state.password.getOrThrow,
-    // );
-    // emit(state.copyWith(isSubmitting: false));
-
-    // result.fold(_failureNotifierPool.signUp.notify, (_) async {
-    //   await _afterSignUp();
-
-    //   _pageNavigator.toConfirmAccountEmailPage();
-    // });
   }
 
   Future<void> onDevSignUp() async {

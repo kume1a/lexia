@@ -10,6 +10,7 @@ abstract interface class AuthService {
   });
 
   Future<Either<SignUpError, AuthPayload>> signUpWithEmailAndPassword({
+    required String username,
     required String email,
     required String password,
   });
