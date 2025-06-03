@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 
 import '../../../app/configuration/app_environment.dart';
 import '../../../app/navigation/page_navigator.dart';
@@ -47,6 +48,10 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   String _repeatedPasswordValue = '';
 
+  void onUsernameChanged(String value) {
+    emit(state.copyWith(username: Name(value)));
+  }
+
   void onEmailChanged(String email) {
     emit(state.copyWith(email: Email(email)));
   }
@@ -66,12 +71,29 @@ class SignUpCubit extends Cubit<SignUpState> {
   Future<void> onSubmit() async {
     emit(state.copyWith(validateForm: true));
 
+    Logger.root.info(
+      'form is valid: '
+      '${!state.email.invalid && !state.username.invalid && !state.password.invalid && !state.repeatedPassword.invalid}',
+    );
+
     if (state.email.invalid ||
         state.username.invalid ||
         state.password.invalid ||
         state.repeatedPassword.invalid) {
       return;
     }
+
+    Logger.root.info('SignUpCubit.onSubmit() - form is valid');
+
+    emit(state.copyWith(isSubmitting: true));
+
+    Logger.root.info('emitting isSubmitting: true');
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    Logger.root.info('emitting isSubmitting: false');
+
+    emit(state.copyWith(isSubmitting: false));
 
     // emit(state.copyWith(isSubmitting: true));
     // final result = await _authService.signUp(
@@ -88,7 +110,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     // });
   }
 
-  Future<void> onDevSignIn() async {
+  Future<void> onDevSignUp() async {
     final username = AppEnvironment.devSignInUsername;
     final email = AppEnvironment.devSignInEmail;
     final password = AppEnvironment.devSignInPassword;
@@ -102,8 +124,10 @@ class SignUpCubit extends Cubit<SignUpState> {
       ),
     );
 
+    usernameFieldController.text = username;
     emailFieldController.text = email;
     passwordFieldController.text = password;
+    repeatedPasswordFieldController.text = password;
 
     return onSubmit();
   }

@@ -8,4 +8,9 @@ abstract final class Assets {
   static const imageLibrary = '$_images/books.jpg';
 
   static const svgSearch = '$_icons/search.svg';
+  static const svgEmail = '$_icons/email.svg';
+  static const svgLock = '$_icons/lock.svg';
+  static const svgEye = '$_icons/eye.svg';
+  static const svgEyeOff = '$_icons/eye_off.svg';
+  static const svgUser = '$_icons/user.svg';
 }

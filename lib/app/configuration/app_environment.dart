@@ -10,11 +10,13 @@ class AppEnvironment {
   static const String _keyRemoteApiUrl = 'REMOTE_API_URL';
   static const String _keyDevSignInEmail = 'DEV_SIGN_IN_EMAIL';
   static const String _keyDevSignInPassword = 'DEV_SIGN_IN_PASSWORD';
+  static const String _keyDevSignInUsername = 'DEV_SIGN_IN_USERNAME';
 
   static String _localApiUrl = '';
   static String _remoteApiUrl = '';
   static String _devSignInEmail = '';
   static String _devSignInPassword = '';
+  static String _devSignInUsername = '';
 
   static Future<void> load() async {
     if (kReleaseMode) {
@@ -22,17 +24,20 @@ class AppEnvironment {
       _remoteApiUrl = const String.fromEnvironment(_keyRemoteApiUrl);
       _devSignInEmail = const String.fromEnvironment(_keyDevSignInEmail);
       _devSignInPassword = const String.fromEnvironment(_keyDevSignInPassword);
+      _devSignInUsername = const String.fromEnvironment(_keyDevSignInUsername);
 
       if (_localApiUrl.isEmpty ||
           _remoteApiUrl.isEmpty ||
           _devSignInEmail.isEmpty ||
-          _devSignInPassword.isEmpty) {
+          _devSignInPassword.isEmpty ||
+          _devSignInUsername.isEmpty) {
         throw Exception(
           'Missing environment variables'
           '$_keyLocalApiUrl: $_localApiUrl, '
           '$_keyRemoteApiUrl: $_remoteApiUrl, '
           '$_keyDevSignInEmail: $_devSignInEmail, '
-          '$_keyDevSignInPassword: $_devSignInPassword',
+          '$_keyDevSignInPassword: $_devSignInPassword'
+          '$_keyDevSignInUsername: $_devSignInUsername',
         );
       }
 
@@ -57,6 +62,7 @@ class AppEnvironment {
     _remoteApiUrl = dotenv.get(_keyRemoteApiUrl);
     _devSignInEmail = dotenv.get(_keyDevSignInEmail, fallback: '');
     _devSignInPassword = dotenv.get(_keyDevSignInPassword, fallback: '');
+    _devSignInUsername = dotenv.get(_keyDevSignInUsername, fallback: '');
   }
 
   static String get localApiUrl => _localApiUrl;
@@ -66,6 +72,8 @@ class AppEnvironment {
   static String get devSignInEmail => _devSignInEmail;
 
   static String get devSignInPassword => _devSignInPassword;
+
+  static String get devSignInUsername => _devSignInUsername;
 }
 
 class _DotEnvLoader {

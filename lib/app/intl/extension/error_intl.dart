@@ -44,3 +44,13 @@ extension PasswordErrorIntl on PasswordError {
     );
   }
 }
+
+extension RepeatPasswordErrorIntl on RepeatedPasswordError {
+  String translate(AppLocalizations l) {
+    return maybeWhen(
+      orElse: () => '',
+      empty: () => l.fieldIsRequired,
+      doesNotMatch: () => l.passwordsDoNotMatch,
+    );
+  }
+}

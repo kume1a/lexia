@@ -8,8 +8,8 @@ import '../../util/color.dart';
 import '../../values/app_theme_extension.dart';
 import '../../values/assets.dart';
 
-class PasswordField extends HookWidget {
-  const PasswordField({super.key, required this.onChanged, required this.validator, this.controller});
+class RepeatPasswordField extends HookWidget {
+  const RepeatPasswordField({super.key, required this.onChanged, required this.validator, this.controller});
 
   final ValueChanged<String> onChanged;
   final FormFieldValidator<String> validator;
@@ -26,7 +26,7 @@ class PasswordField extends HookWidget {
       controller: controller,
       obscureText: isObscured.value,
       decoration: InputDecoration(
-        hintText: l.password,
+        hintText: l.repeatPassword,
         counterText: '',
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 12.w, right: 8.w),

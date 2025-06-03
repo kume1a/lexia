@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../app/di/register_dependencies.dart';
-import '../features/authentication/state/sign_in_state.dart';
-import '../features/authentication/ui/sign_in_form.dart';
+import '../features/authentication/state/sign_up_state.dart';
+import '../features/authentication/ui/sign_up_form.dart';
 import '../shared/ui/logo_header.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => getIt<SignInCubit>(), child: _Content());
+    return BlocProvider(create: (_) => getIt<SignUpCubit>(), child: _Content());
   }
 }
 
@@ -29,10 +29,13 @@ class _Content extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 16.w, top: 16.h),
-                child: const LogoHeaderMedium(),
+                padding: EdgeInsets.only(right: 16.w, left: 4.w, top: 6.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [BackButton(), const LogoHeaderMedium()],
+                ),
               ),
-              Expanded(child: SignInForm()),
+              Expanded(child: SignUpForm()),
             ],
           ),
         ),

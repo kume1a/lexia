@@ -44,11 +44,17 @@ class SignInCubit extends Cubit<SignInState> {
   }
 
   Future<void> onSubmit() async {
-    emit(state.copyWith(isSubmitting: true, validateForm: true));
+    emit(state.copyWith(validateForm: true));
+
+    if (state.email.invalid || state.password.invalid) {
+      return;
+    }
+
+    emit(state.copyWith(isSubmitting: true));
 
     await Future.delayed(const Duration(seconds: 2));
 
-    emit(state.copyWith(isSubmitting: false, validateForm: false));
+    emit(state.copyWith(isSubmitting: false));
   }
 
   Future<void> onDevSignIn() async {

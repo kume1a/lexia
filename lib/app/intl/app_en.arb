@@ -22,5 +22,8 @@
   "signIn": "Sign In",
   "signUp": "Sign Up",
   "welcomeToAppName": "Welcome to Lexia",
-  "welcomeCaption": "Master your vocabulary, your way."
+  "welcomeCaption": "Master your vocabulary, your way.",
+  "repeatPassword": "Repeat Password",
+  "username": "Username",
+  "passwordsDoNotMatch": "Passwords do not match"
 }
