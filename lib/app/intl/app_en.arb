@@ -30,5 +30,7 @@
   "emailAlreadyInUse": "Email already in use",
   "error": "Error",
   "home": "Home",
-  "profile": "Profile"
+  "profile": "Profile",
+  "settings": "Settings",
+  "signOut": "Sign Out"
 }

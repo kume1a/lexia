@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../pages/main/main_page.dart';
+import '../../pages/profile_page.dart';
+import '../../pages/settings_page.dart';
 import '../../pages/sign_in_page.dart';
 import '../../pages/sign_up_page.dart';
 import '../../pages/welcome_page.dart';
@@ -13,6 +15,8 @@ Route<dynamic> routeFactory(RouteSettings settings) {
     Routes.signIn => _createSignInRoute(settings),
     Routes.signUp => _createSignUpRoute(settings),
     Routes.main => _createMainRoute(settings),
+    Routes.profile => _createProfileRoute(settings),
+    Routes.settings => _createSettingsRoute(settings),
     _ => throw Exception('route $settings is not supported'),
   };
 }
@@ -31,6 +35,14 @@ Route _createSignUpRoute(RouteSettings settings) {
 
 Route _createMainRoute(RouteSettings settings) {
   return MaterialPageRoute(builder: (_) => const MainPage(), settings: settings);
+}
+
+Route _createProfileRoute(RouteSettings settings) {
+  return MaterialPageRoute(builder: (_) => const ProfilePage(), settings: settings);
+}
+
+Route _createSettingsRoute(RouteSettings settings) {
+  return MaterialPageRoute(builder: (_) => const SettingsPage(), settings: settings);
 }
 
 // T _getArgs<T>(RouteSettings settings) {

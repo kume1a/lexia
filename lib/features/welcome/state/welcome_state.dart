@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../app/navigation/page_navigator.dart';
-import '../authentication/api/auth_status_provider.dart';
+import '../../../app/navigation/page_navigator.dart';
+import '../../authentication/api/auth_status_provider.dart';
 
 part 'welcome_state.freezed.dart';
 
