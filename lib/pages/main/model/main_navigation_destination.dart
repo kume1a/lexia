@@ -1,0 +1,1 @@
+enum MainNavigationDestination { home, search }

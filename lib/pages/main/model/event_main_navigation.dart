@@ -1,7 +1,7 @@
-class EventMainNavigation {
-  EventMainNavigation({
-    required this.pageIndex,
-  });
+import 'main_navigation_destination.dart';
 
-  final int pageIndex;
+class EventMainNavigation {
+  EventMainNavigation({required this.destination});
+
+  final MainNavigationDestination destination;
 }

@@ -56,21 +56,6 @@ class MainNavigationBar extends StatelessWidget {
               ),
               label: l.search,
             ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                Assets.svgUser,
-                width: 24,
-                height: 24,
-                colorFilter: svgColor(theme.appThemeExtension?.elSecondary),
-              ),
-              activeIcon: SvgPicture.asset(
-                Assets.svgUser,
-                width: 24,
-                height: 24,
-                colorFilter: svgColor(theme.colorScheme.onPrimaryContainer),
-              ),
-              label: l.profile,
-            ),
           ],
         );
       },
