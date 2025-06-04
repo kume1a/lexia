@@ -29,9 +29,16 @@ abstract final class AppTheme {
       unselectedLabelStyle: TextStyle(fontSize: 12),
       backgroundColor: Palette.primaryContainer,
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      elevation: 0,
+      focusElevation: 0,
+      hoverElevation: 0,
+      disabledElevation: 0,
+      highlightElevation: 0,
+    ),
     dialogTheme: DialogThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      backgroundColor: Palette.primaryContainer,
+      backgroundColor: Palette.surface,
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Palette.surface,

@@ -14,6 +14,26 @@ extension NetworkCallErrorIntl on NetworkCallError {
   }
 }
 
+extension MutateEntityErrorIntl on MutateEntityError {
+  String translate(AppLocalizations l) {
+    return when(
+      network: () => l.noInternetConnection,
+      unknown: () => l.unknownError,
+      notFound: () => l.entityNotFound,
+    );
+  }
+}
+
+extension GetEntityErrorIntl on GetEntityError {
+  String translate(AppLocalizations l) {
+    return when(
+      network: () => l.noInternetConnection,
+      unknown: () => l.unknownError,
+      notFound: () => l.entityNotFound,
+    );
+  }
+}
+
 extension NameErrorIntl on NameError {
   String translate(AppLocalizations l) {
     return when(

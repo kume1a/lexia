@@ -34,5 +34,20 @@
   "settings": "Settings",
   "signOut": "Sign Out",
   "folders": "Folders",
-  "dictionary": "Dictionary"
+  "dictionary": "Dictionary",
+  "numberOfWords": "{count, plural, =0 {No words} one {{count} word} other {{count} words}}",
+  "@numberOfWords": {
+    "description": "Used to indicate the number of words in a folder or dictionary",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "addNewFolder": "Add New Folder",
+  "folderCreatedSuccessfully": "Folder created successfully",
+  "folderUpdatedSuccessfully": "Folder updated successfully",
+  "entityNotFound": "Entity not found",
+  "updateFolder": "Update Folder",
+  "createFolder": "Create Folder",
+  "folderName": "Folder Name",
+  "submit": "Submit"
 }
