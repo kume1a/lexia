@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:logging/logging.dart';
 
 import '../../../app/intl/app_localizations.dart';
 import '../../../shared/ui/small_circular_progress_indicator.dart';
@@ -18,8 +17,6 @@ class FolderList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FolderListCubit, FolderListState>(
       builder: (_, state) {
-        Logger.root.info('FolderList: Building with state: $state');
-
         return state.maybeWhen(
           orElse: () => SizedBox.shrink(),
           loading: () => const Center(child: SmallCircularProgressIndicator()),

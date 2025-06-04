@@ -37,10 +37,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
 
   Future<void> onCreateFolderPressed() async {
     await _folderDialogs.showMutateFolderDialog();
-    Logger.root.info('Folder created or updated, reloading list');
 
-    loadEntityAndEmit(emitLoading: false);
-
-    Logger.root.info('Folder list reloaded');
+    loadEntityAndEmit();
   }
 }
