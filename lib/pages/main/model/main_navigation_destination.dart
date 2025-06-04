@@ -1,1 +1,1 @@
-enum MainNavigationDestination { home, search }
+enum MainNavigationDestination { home, search, folders, dictionary }

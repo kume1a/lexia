@@ -49,6 +49,8 @@ class MainPageCubit extends Cubit<MainPageState> {
     final pageIndex = switch (event.destination) {
       MainNavigationDestination.home => 0,
       MainNavigationDestination.search => 1,
+      MainNavigationDestination.folders => 2,
+      MainNavigationDestination.dictionary => 3,
     };
 
     emit(state.copyWith(pageIndex: pageIndex));

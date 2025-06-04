@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../dictionary_page.dart';
+import '../../folders_page.dart';
 import '../../home_page.dart';
-import '../../profile_page.dart';
 import '../../search_page.dart';
 import '../state/main_page_state.dart';
 
@@ -16,7 +17,7 @@ class PageContent extends StatelessWidget {
       builder: (_, state) {
         return IndexedStack(
           index: state.pageIndex,
-          children: const [HomePage(), SearchPage(), ProfilePage()],
+          children: const [HomePage(), SearchPage(), FoldersPage(), DictionaryPage()],
         );
       },
     );
