@@ -4,7 +4,7 @@ import 'package:global_navigator/global_navigator.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../app/intl/app_localizations.dart';
-import '../typedefs.dart';
+import '../ui/typedefs.dart';
 
 @lazySingleton
 class DialogManager {
@@ -43,10 +43,7 @@ class DialogManager {
         strings: (c) {
           final l = AppLocalizations.of(c);
 
-          return StatusDialogStrings(
-            content: content(l),
-            buttonLabel: buttonLabel?.call(l) ?? l.ok,
-          );
+          return StatusDialogStrings(content: content(l), buttonLabel: buttonLabel?.call(l) ?? l.ok);
         },
       ),
     );

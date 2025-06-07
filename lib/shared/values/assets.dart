@@ -17,4 +17,6 @@ abstract final class Assets {
   static const svgFolder = '$_icons/folder.svg';
   static const svgDictionary = '$_icons/dictionary.svg';
   static const svgBook = '$_icons/book.svg';
+  static const svgPencil = '$_icons/pencil.svg';
+  static const svgTrashCan = '$_icons/trash_can.svg';
 }

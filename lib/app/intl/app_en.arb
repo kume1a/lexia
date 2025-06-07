@@ -39,7 +39,9 @@
   "@numberOfWords": {
     "description": "Used to indicate the number of words in a folder or dictionary",
     "placeholders": {
-      "count": {}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "addNewFolder": "Add New Folder",
@@ -49,5 +51,25 @@
   "updateFolder": "Update Folder",
   "createFolder": "Create Folder",
   "folderName": "Folder Name",
-  "submit": "Submit"
+  "submit": "Submit",
+  "folderAndName": "Folder {folderName}",
+  "@folderAndName": {
+    "description": "Used to indicate a folder with its name",
+    "placeholders": {
+      "folderName": {
+        "type": "String"
+      }
+    }
+  },
+  "edit": "Edit",
+  "delete": "Delete",
+  "folderDeleteError": "Error deleting folder {folderName}",
+  "@folderDeleteError": {
+    "description": "Used to indicate an error when deleting a folder",
+    "placeholders": {
+      "folderName": {
+        "type": "String"
+      }
+    }
+  }
 }
