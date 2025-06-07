@@ -1,4 +1,5 @@
 import 'package:common_models/common_models.dart';
+import 'package:common_utilities/common_utilities.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -59,18 +60,36 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
 
     switch (selectedOption) {
       case 0:
-        return _folderDialogs.showMutateFolderDialog(folder: folder);
+        final updatedFolder = await _folderDialogs.showMutateFolderDialog(folder: folder);
+
+        if (updatedFolder == null) {
+          return;
+        }
+
+        emit(state.map((folders) => folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder)));
       case 1:
-        return _folderRemoteRepository.deleteById(folder.id).awaitFold((l) {
-          _toastNotifier.error(description: (l) => l.folderDeleteError(folder.name));
-        }, (r) {});
+        return _folderRemoteRepository
+            .deleteById(folder.id)
+            .awaitFold(
+              (l) {
+                _toastNotifier.error(description: (l) => l.folderDeleteError(folder.name));
+              },
+              (r) {
+                _toastNotifier.success(description: (l) => l.folderDeleted(folder.name));
+                emit(state.map((folders) => folders.where((e) => e.id != folder.id).toList()));
+              },
+            );
     }
   }
 
   Future<void> onCreateFolderPressed() async {
-    await _folderDialogs.showMutateFolderDialog();
+    final createdFolder = await _folderDialogs.showMutateFolderDialog();
 
-    loadEntityAndEmit();
+    if (createdFolder == null) {
+      return;
+    }
+
+    emit(state.map((folders) => [...folders, createdFolder]));
   }
 
   void onFolderPressed(Folder folder) {}

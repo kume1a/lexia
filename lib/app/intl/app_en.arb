@@ -71,5 +71,14 @@
         "type": "String"
       }
     }
+  },
+  "folderDeleted": "Folder {folderName} deleted successfully",
+  "@folderDeleted": {
+    "description": "Used to indicate a folder has been deleted successfully",
+    "placeholders": {
+      "folderName": {
+        "type": "String"
+      }
+    }
   }
 }
