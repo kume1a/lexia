@@ -10,4 +10,6 @@ abstract interface class FolderRemoteRepository {
   Future<Either<MutateEntityError, Folder>> deleteById(String id);
 
   Future<Either<NetworkCallError, List<Folder>>> getAll();
+
+  Future<Either<GetEntityError, Folder>> getById(String id);
 }

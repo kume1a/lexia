@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../app/di/register_dependencies.dart';
+import '../entities/folder/state/folder_state.dart';
 
 class FolderPageArgs {
   FolderPageArgs({required this.folderId});
@@ -13,7 +17,10 @@ class FolderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Content();
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (_) => getIt<FolderCubit>()..init(folderId: args.folderId))],
+      child: _Content(),
+    );
   }
 }
 

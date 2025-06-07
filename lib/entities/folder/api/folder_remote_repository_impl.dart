@@ -1,5 +1,6 @@
 import 'package:common_models/common_models.dart';
 import 'package:injectable/injectable.dart';
+import 'package:collection/collection.dart';
 
 import '../model/folder.dart';
 import 'folder_remote_repository.dart';
@@ -57,5 +58,17 @@ class FolderRemoteRepositoryImpl implements FolderRemoteRepository {
   @override
   Future<Either<NetworkCallError, List<Folder>>> getAll() {
     return Future.delayed(const Duration(seconds: 2), () => right(fakeFolders));
+  }
+
+  @override
+  Future<Either<GetEntityError, Folder>> getById(String id) {
+    return Future.delayed(const Duration(seconds: 2), () {
+      final folder = fakeFolders.firstWhereOrNull((folder) => folder.id == id);
+      if (folder == null) {
+        return left(GetEntityError.notFound);
+      }
+
+      return right(folder);
+    });
   }
 }
