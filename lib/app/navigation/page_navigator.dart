@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:global_navigator/global_navigator.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../pages/folder_page.dart';
 import 'routes.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -21,4 +22,6 @@ class PageNavigator {
   void toProfile() => GlobalNavigator.pushNamed(Routes.profile);
 
   void toSettings() => GlobalNavigator.pushNamed(Routes.settings);
+
+  void toFolder(FolderPageArgs args) => GlobalNavigator.pushNamed(Routes.folder, arguments: args);
 }

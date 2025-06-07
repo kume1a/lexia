@@ -7,4 +7,5 @@ abstract class Routes {
   static const main = '/main';
   static const profile = '/profile';
   static const settings = '/settings';
+  static const folder = '/folder';
 }

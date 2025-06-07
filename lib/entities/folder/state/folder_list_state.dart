@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
+import '../../../app/navigation/page_navigator.dart';
+import '../../../pages/folder_page.dart';
 import '../../../shared/cubit/entity_loader_cubit.dart';
 import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
@@ -27,6 +29,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
     this._folderDialogs,
     this._bottomSheetManager,
     this._toastNotifier,
+    this._pageNavigator,
   ) {
     loadEntityAndEmit();
   }
@@ -35,6 +38,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
   final FolderDialogs _folderDialogs;
   final BottomSheetManager _bottomSheetManager;
   final ToastNotifier _toastNotifier;
+  final PageNavigator _pageNavigator;
 
   @override
   Future<List<Folder>?> loadEntity() async {
@@ -92,5 +96,9 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
     emit(state.map((folders) => [...folders, createdFolder]));
   }
 
-  void onFolderPressed(Folder folder) {}
+  void onFolderPressed(Folder folder) {
+    final args = FolderPageArgs(folderId: folder.id);
+
+    _pageNavigator.toFolder(args);
+  }
 }
