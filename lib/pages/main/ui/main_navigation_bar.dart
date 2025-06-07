@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../app/intl/app_localizations.dart';
 import '../../../shared/util/color.dart';
+import '../../../shared/values/app_theme_extension.dart';
 import '../../../shared/values/assets.dart';
 import '../state/main_page_state.dart';
 
@@ -82,7 +83,7 @@ class _SecondaryIcon extends StatelessWidget {
       iconAssetName,
       width: 24,
       height: 24,
-      colorFilter: svgColor(theme.colorScheme.onPrimaryContainer),
+      colorFilter: svgColor(theme.appThemeExtension?.elSecondary),
     );
   }
 }
