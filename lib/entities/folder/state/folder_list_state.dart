@@ -23,6 +23,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
 
   final FolderRemoteRepository _folderRemoteRepository;
   final FolderDialogs _folderDialogs;
+  final BottomSHeetMana
 
   @override
   Future<List<Folder>?> loadEntity() async {
@@ -33,11 +34,13 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
     return res.rightOrNull;
   }
 
-  void onFolderPressed(Folder folder) {}
+  void onFolderMenuPressed(Folder folder) {}
 
   Future<void> onCreateFolderPressed() async {
     await _folderDialogs.showMutateFolderDialog();
 
     loadEntityAndEmit();
   }
+
+  void onFolderPressed(Folder folder) {}
 }
