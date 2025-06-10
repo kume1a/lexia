@@ -80,5 +80,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "selectLanguageFrom": "Select a language from",
+  "selectLanguageTo": "Select a language to",
+  "english": "English",
+  "georgian": "Georgian",
+  "languageFrom": "Language From",
+  "languageTo": "Language To"
 }

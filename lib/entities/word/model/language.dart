@@ -1,1 +1,0 @@
-enum WordLanguage { english, georgian }

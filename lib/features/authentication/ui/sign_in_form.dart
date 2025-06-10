@@ -5,7 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app/intl/app_localizations.dart';
+import '../../../app/intl/extension/enum_intl.dart';
 import '../../../app/intl/extension/error_intl.dart';
+import '../../../entities/folder/model/language.dart';
+import '../../../shared/ui/dropdown_container_field.dart';
 import '../../../shared/ui/field/email_field.dart';
 import '../../../shared/ui/field/password_field.dart';
 import '../../../shared/ui/loading_text_button.dart';
@@ -48,6 +51,7 @@ class SignInForm extends StatelessWidget {
                   onChanged: context.signInCubit.onEmailChanged,
                   validator: (_) => context.signInCubit.state.email.errToString((f) => f.translate(l)),
                 ),
+                SizedBox(height: 12.h),
                 SizedBox(height: 12.h),
                 PasswordField(
                   controller: context.signInCubit.passwordFieldController,
