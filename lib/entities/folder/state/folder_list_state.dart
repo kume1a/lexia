@@ -3,7 +3,6 @@ import 'package:common_utilities/common_utilities.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 
 import '../../../app/navigation/page_navigator.dart';
 import '../../../pages/folder_page.dart';
@@ -43,8 +42,6 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
   @override
   Future<List<Folder>?> loadEntity() async {
     final res = await _folderRemoteRepository.getAll();
-
-    Logger.root.info('Folder list loaded with items: ${res.rightOrNull}');
 
     return res.rightOrNull;
   }

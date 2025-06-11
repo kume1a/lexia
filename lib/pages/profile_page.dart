@@ -20,16 +20,18 @@ class _Content extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.w600)),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Welcome to the Profile Page!'),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.settings),
-              child: const Text('Settings'),
-            ),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Welcome to the Profile Page!'),
+              ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, Routes.settings),
+                child: const Text('Settings'),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -49,9 +49,11 @@ class _Content extends StatelessWidget {
           },
         ),
       ),
-      body: FolderWordList(),
+      body: SafeArea(
+        child: RefreshIndicator(onRefresh: context.folderWordListCubit.onRefresh, child: FolderWordList()),
+      ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: context.folderWordListCubit.onCreateWordPressed,
+        onPressed: context.folderWordListCubit.onNewWordPressed,
         icon: const Icon(Icons.add),
         label: Text(l.addNewWord),
       ),

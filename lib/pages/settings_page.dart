@@ -25,12 +25,14 @@ class _Content extends StatelessWidget {
       appBar: AppBar(
         title: Text(l.settings, style: TextStyle(fontWeight: FontWeight.w600)),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(onPressed: context.settingsCubit.onSignOutPressed, child: Text(l.signOut)),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: context.settingsCubit.onSignOutPressed, child: Text(l.signOut)),
+            ],
+          ),
         ),
       ),
     );

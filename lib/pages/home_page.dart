@@ -37,10 +37,12 @@ class _Content extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[const Text('Welcome to the Home Page!')],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[const Text('Welcome to the Home Page!')],
+          ),
         ),
       ),
     );

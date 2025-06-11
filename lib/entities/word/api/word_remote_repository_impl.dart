@@ -75,7 +75,6 @@ class WordRemoteRepositoryImpl implements WordRemoteRepository {
   @override
   Future<Either<MutateEntityError, Word>> updateById(
     String id, {
-    required String folderId,
     required String text,
     required String definition,
   }) {
@@ -86,7 +85,6 @@ class WordRemoteRepositoryImpl implements WordRemoteRepository {
       }
 
       final updatedWord = fakeWords[wordIndex].copyWith(
-        folderId: folderId,
         text: text,
         definition: definition,
         updatedAt: DateTime.now(),

@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:global_navigator/global_navigator.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 
+import '../../entities/word/model/word.dart';
 import '../../pages/folder_page.dart';
+import '../../pages/mutate_word_page.dart';
 import 'routes.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -11,17 +14,28 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 class PageNavigator {
   void pop<T>({T? result}) => GlobalNavigator.maybePop(result: result);
 
-  void toWelcome() => GlobalNavigator.pushNamedAndRemoveAll(Routes.welcome);
+  Future<void> toWelcome() => GlobalNavigator.pushNamedAndRemoveAll(Routes.welcome);
 
-  void toSignIn() => GlobalNavigator.pushNamedAndRemoveAll(Routes.signIn);
+  Future<void> toSignIn() => GlobalNavigator.pushNamedAndRemoveAll(Routes.signIn);
 
-  void toSignUp() => GlobalNavigator.pushNamed(Routes.signUp);
+  Future<void> toSignUp() => GlobalNavigator.pushNamed(Routes.signUp);
 
-  void toMain() => GlobalNavigator.pushNamedAndRemoveAll(Routes.main);
+  Future<void> toMain() => GlobalNavigator.pushNamedAndRemoveAll(Routes.main);
 
-  void toProfile() => GlobalNavigator.pushNamed(Routes.profile);
+  Future<void> toProfile() => GlobalNavigator.pushNamed(Routes.profile);
 
-  void toSettings() => GlobalNavigator.pushNamed(Routes.settings);
+  Future<void> toSettings() => GlobalNavigator.pushNamed(Routes.settings);
 
-  void toFolder(FolderPageArgs args) => GlobalNavigator.pushNamed(Routes.folder, arguments: args);
+  Future<void> toFolder(FolderPageArgs args) => GlobalNavigator.pushNamed(Routes.folder, arguments: args);
+
+  Future<Word?> toMutateWord(MutateWordPageArgs args) async {
+    final res = await GlobalNavigator.pushNamed(Routes.mutateWord, arguments: args);
+
+    if (res is Word) {
+      return res;
+    } else {
+      Logger.root.warning('Expected Word type, but got ${res.runtimeType}');
+      return null;
+    }
+  }
 }

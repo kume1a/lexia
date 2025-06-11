@@ -21,11 +21,22 @@ class FolderWordList extends StatelessWidget {
           orElse: () => const SizedBox.shrink(),
           loading: () => const Center(child: SmallCircularProgressIndicator()),
           failure: (error, _) => Center(child: Text(error.translate(l))),
-          success: (words) => ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            itemCount: words.length,
-            itemBuilder: (_, index) => _Item(word: words[index]),
-          ),
+          success: (words) {
+            if (words.isEmpty) {
+              return Center(
+                child: Text(
+                  l.noWordsYet,
+                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+                ),
+              );
+            }
+
+            return ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              itemCount: words.length,
+              itemBuilder: (_, index) => _Item(word: words[index]),
+            );
+          },
         );
       },
     );

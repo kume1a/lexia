@@ -43,7 +43,7 @@ class _Content extends StatelessWidget {
     return Dialog(
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10.r),
           child: BlocBuilder<MutateFolderCubit, MutateFolderState>(
             buildWhen: (previous, current) =>
                 previous.validateForm != current.validateForm ||
@@ -55,13 +55,13 @@ class _Content extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(folder != null ? l.updateFolder : l.createFolder),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     _FieldFolderName(),
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     _FieldLanguageFrom(),
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     _FieldLanguageTo(),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     LoadingTextButton(
                       isLoading: state.isSubmitting,
                       onPressed: context.mutateFolderCubit.onSubmit,

@@ -87,5 +87,24 @@
   "georgian": "Georgian",
   "languageFrom": "Language From",
   "languageTo": "Language To",
-  "addNewWord": "Add New Word"
+  "addNewWord": "Add New Word",
+  "wordCreatedSuccessfully": "Word created successfully",
+  "wordUpdatedSuccessfully": "Word updated successfully",
+  "stringIsTooLong": "String is too long",
+  "text": "Text",
+  "definition": "Definition",
+  "wordAndText": "Word {wordText}",
+  "@wordAndText": {
+    "description": "Used to indicate a word with its text",
+    "placeholders": {
+      "wordText": {
+        "type": "String"
+      }
+    }
+  },
+  "wordDeleteError": "Error deleting word",
+  "wordDeletedSuccessfully": "Word deleted successfully",
+  "noWordsYet": "No words yet",
+  "newWord": "New Word",
+  "updateWord": "Update Word"
 }

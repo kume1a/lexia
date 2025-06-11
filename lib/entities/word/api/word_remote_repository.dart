@@ -11,7 +11,6 @@ abstract interface class WordRemoteRepository {
 
   Future<Either<MutateEntityError, Word>> updateById(
     String id, {
-    required String folderId,
     required String text,
     required String definition,
   });

@@ -96,3 +96,9 @@ extension SignUpErrorIntl on SignUpError {
     );
   }
 }
+
+extension RequiredStringErrorIntl on RequiredStringError {
+  String translate(AppLocalizations l) {
+    return when(empty: () => l.fieldIsRequired, tooLong: () => l.stringIsTooLong);
+  }
+}
