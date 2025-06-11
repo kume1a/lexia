@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../app/intl/app_localizations.dart';
+import '../../../app/intl/extension/enum_intl.dart';
 import '../../../shared/ui/small_circular_progress_indicator.dart';
 import '../../../shared/util/color.dart';
+import '../../../shared/values/app_theme_extension.dart';
 import '../../../shared/values/assets.dart';
 import '../model/folder.dart';
 import '../state/folder_list_state.dart';
@@ -74,7 +76,10 @@ class _Item extends StatelessWidget {
                 children: [
                   Text(folder.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   SizedBox(height: 4.h),
-                  Text(l.numberOfWords(folder.wordCount)),
+                  Text(
+                    '${l.numberOfWords(folder.wordCount)} · ${folder.languageFrom.translate(l)} > ${folder.languageTo.translate(l)}',
+                    style: TextStyle(fontSize: 12, color: theme.appThemeExtension?.elSecondary),
+                  ),
                 ],
               ),
             ),

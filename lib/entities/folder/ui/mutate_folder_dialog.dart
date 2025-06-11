@@ -79,7 +79,7 @@ class _Content extends StatelessWidget {
 }
 
 class _FieldFolderName extends StatelessWidget {
-  const _FieldFolderName({super.key});
+  const _FieldFolderName();
 
   @override
   Widget build(BuildContext context) {

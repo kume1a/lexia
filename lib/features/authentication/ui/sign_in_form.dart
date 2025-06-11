@@ -5,10 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app/intl/app_localizations.dart';
-import '../../../app/intl/extension/enum_intl.dart';
 import '../../../app/intl/extension/error_intl.dart';
-import '../../../entities/folder/model/language.dart';
-import '../../../shared/ui/dropdown_container_field.dart';
 import '../../../shared/ui/field/email_field.dart';
 import '../../../shared/ui/field/password_field.dart';
 import '../../../shared/ui/loading_text_button.dart';
