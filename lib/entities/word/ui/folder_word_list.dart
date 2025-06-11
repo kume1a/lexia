@@ -57,14 +57,25 @@ class _Item extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.r),
         color: theme.colorScheme.primaryContainer,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.only(left: 16.w, right: 8.w, top: 12.h, bottom: 12.h),
       margin: EdgeInsets.only(bottom: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(word.text, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-          SizedBox(height: 2.h),
-          Text(word.definition),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(word.text, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                SizedBox(height: 2.h),
+                Text(word.definition),
+              ],
+            ),
+          ),
+          SizedBox(width: 8.w),
+          IconButton(
+            onPressed: () => context.folderWordListCubit.onWordMenuPressed(word),
+            icon: Icon(Icons.more_vert),
+          ),
         ],
       ),
     );
