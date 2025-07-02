@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../app/intl/app_localizations.dart';
+import '../../../typedefs.dart';
 import '../../../util/color.dart';
 import '../../../values/app_theme_extension.dart';
-import '../../typedefs.dart';
 import 'select_option.dart';
 
 class SelectOptionSelectorBS<T extends Object?> extends StatelessWidget {

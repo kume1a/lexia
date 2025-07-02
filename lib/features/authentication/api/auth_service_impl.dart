@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../entities/user/model/user.dart';
 import '../model/auth_payload.dart';
-import '../model/sign_up_error.dart';
+import '../model/email_sign_up_error.dart';
 import 'auth_service.dart';
 
 AuthPayload fakeAuthPayload({required String username, required String email}) => AuthPayload(
@@ -14,7 +14,7 @@ AuthPayload fakeAuthPayload({required String username, required String email}) =
 @LazySingleton(as: AuthService)
 class AuthServiceImpl implements AuthService {
   @override
-  Future<Either<SignUpError, AuthPayload>> signInWithEmailAndPassword({
+  Future<Either<EmailSignUpError, AuthPayload>> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -25,7 +25,7 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<Either<SignUpError, AuthPayload>> signUpWithEmailAndPassword({
+  Future<Either<EmailSignUpError, AuthPayload>> signUpWithEmailAndPassword({
     required String username,
     required String email,
     required String password,

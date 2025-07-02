@@ -4,7 +4,7 @@ import 'package:global_navigator/global_navigator.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../app/intl/app_localizations.dart';
-import '../ui/typedefs.dart';
+import '../typedefs.dart';
 
 @lazySingleton
 class DialogManager {

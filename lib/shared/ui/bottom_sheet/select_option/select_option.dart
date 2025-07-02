@@ -1,4 +1,4 @@
-import '../../typedefs.dart';
+import '../../../typedefs.dart';
 
 class SelectOption<T> {
   SelectOption({required this.value, required this.label, this.iconAssetName, this.isActive = true});

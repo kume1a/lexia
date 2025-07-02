@@ -3,8 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../app/intl/get_static_localizations.dart';
+import '../typedefs.dart';
 import '../util/static_theme.dart';
-import 'typedefs.dart';
 
 @lazySingleton
 final class ToastNotifier {

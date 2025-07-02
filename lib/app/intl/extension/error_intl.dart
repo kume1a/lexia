@@ -1,7 +1,7 @@
 import 'package:common_models/common_models.dart';
 
+import '../../../features/authentication/model/email_sign_up_error.dart';
 import '../../../features/authentication/model/sign_in_error.dart';
-import '../../../features/authentication/model/sign_up_error.dart';
 import '../app_localizations.dart';
 
 extension NetworkCallErrorIntl on NetworkCallError {
@@ -87,7 +87,7 @@ extension SignInErrorIntl on SignInError {
   }
 }
 
-extension SignUpErrorIntl on SignUpError {
+extension EmailSignUpErrorIntl on EmailSignUpError {
   String translate(AppLocalizations l) {
     return when(
       emailAlreadyInUse: () => l.emailAlreadyInUse,

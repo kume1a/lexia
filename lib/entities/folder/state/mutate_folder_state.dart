@@ -6,10 +6,10 @@ import 'package:injectable/injectable.dart';
 
 import '../../../app/intl/extension/error_intl.dart';
 import '../../../app/navigation/page_navigator.dart';
+import '../../../shared/typedefs.dart';
 import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
-import '../../../shared/ui/typedefs.dart';
 import '../api/folder_remote_repository.dart';
 import '../model/folder.dart';
 import '../model/language.dart';
