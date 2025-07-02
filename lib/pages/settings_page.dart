@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../app/di/register_dependencies.dart';
 import '../app/intl/app_localizations.dart';
+import '../features/dynamic_client/state/change_server_url_origin_state.dart';
 import '../features/settings/state/settings_state.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -10,7 +11,13 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => getIt<SettingsCubit>(), child: _Content());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<SettingsCubit>()),
+        BlocProvider(create: (_) => getIt<ChangeServerUrlOriginCubit>()),
+      ],
+      child: _Content(),
+    );
   }
 }
 
@@ -30,6 +37,11 @@ class _Content extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              ElevatedButton(
+                onPressed: context.changeServerUrlOriginCubit.onChangeServerUrlOriginTilePressed,
+                child: Text(l.changeServerUrlOrigin),
+              ),
+              const SizedBox(height: 16),
               ElevatedButton(onPressed: context.settingsCubit.onSignOutPressed, child: Text(l.signOut)),
             ],
           ),

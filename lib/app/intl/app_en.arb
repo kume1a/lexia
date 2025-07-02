@@ -106,5 +106,9 @@
   "wordDeletedSuccessfully": "Word deleted successfully",
   "noWordsYet": "No words yet",
   "newWord": "New Word",
-  "updateWord": "Update Word"
+  "updateWord": "Update Word",
+  "changeServerUrlOrigin": "Change Server URL Origin",
+  "selectServerUrlOrigin": "Select Server URL Origin",
+  "local": "Local",
+  "remote": "Remote"
 }

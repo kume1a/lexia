@@ -21,4 +21,6 @@ abstract final class Assets {
   static const svgTrashCan = '$_icons/trash_can.svg';
   static const svgChevronDown = '$_icons/chevron_down.svg';
   static const svgLanguage = '$_icons/language.svg';
+  static const svgCheck = '$_icons/check.svg';
+  static const svgServer = '$_icons/server.svg';
 }
