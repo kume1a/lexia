@@ -10,8 +10,9 @@ import '../../../shared/typedefs.dart';
 import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
-import '../api/folder_remote_repository.dart';
+import '../api/folder_repository.dart';
 import '../model/folder.dart';
+import '../model/folder_type.dart';
 import '../model/language.dart';
 
 part 'mutate_folder_state.freezed.dart';
@@ -37,13 +38,13 @@ extension MutateFolderCubitX on BuildContext {
 @injectable
 class MutateFolderCubit extends Cubit<MutateFolderState> {
   MutateFolderCubit(
-    this._folderRemoteRepository,
+    this._folderRepository,
     this._toastNotifier,
     this._pageNavigator,
     this._bottomSheetManager,
   ) : super(MutateFolderState.initial());
 
-  final FolderRemoteRepository _folderRemoteRepository;
+  final FolderRepository _folderRepository;
   final ToastNotifier _toastNotifier;
   final PageNavigator _pageNavigator;
   final BottomSheetManager _bottomSheetManager;
@@ -96,9 +97,10 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
     emit(state.copyWith(isSubmitting: true));
 
     if (_folder == null) {
-      await _folderRemoteRepository
-          .create(
+      await _folderRepository
+          .createFolder(
             name: state.folderName.getOrThrow,
+            type: FolderType.wordCollection,
             languageFrom: state.languageFrom!,
             languageTo: state.languageTo!,
           )
@@ -107,13 +109,8 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
             _pageNavigator.pop(result: r);
           });
     } else {
-      await _folderRemoteRepository
-          .updateById(
-            _folder!.id,
-            name: state.folderName.getOrThrow,
-            languageFrom: state.languageFrom!,
-            languageTo: state.languageTo!,
-          )
+      await _folderRepository
+          .updateFolder(folderId: _folder!.id, name: state.folderName.getOrThrow)
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.folderUpdatedSuccessfully);
             _pageNavigator.pop(result: r);

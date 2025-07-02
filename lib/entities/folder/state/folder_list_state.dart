@@ -11,7 +11,7 @@ import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
 import '../../../shared/values/assets.dart';
-import '../api/folder_remote_repository.dart';
+import '../api/folder_repository.dart';
 import '../model/folder.dart';
 import '../util/folder_dialogs.dart';
 
@@ -24,7 +24,7 @@ extension FolderListCubitX on BuildContext {
 @injectable
 final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
   FolderListCubit(
-    this._folderRemoteRepository,
+    this._folderRepository,
     this._folderDialogs,
     this._bottomSheetManager,
     this._toastNotifier,
@@ -33,7 +33,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
     loadEntityAndEmit();
   }
 
-  final FolderRemoteRepository _folderRemoteRepository;
+  final FolderRepository _folderRepository;
   final FolderDialogs _folderDialogs;
   final BottomSheetManager _bottomSheetManager;
   final ToastNotifier _toastNotifier;
@@ -41,7 +41,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
 
   @override
   Future<List<Folder>?> loadEntity() async {
-    final res = await _folderRemoteRepository.getAll();
+    final res = await _folderRepository.getUserFolders();
 
     return res.rightOrNull;
   }
@@ -69,8 +69,8 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
 
         emit(state.map((folders) => folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder)));
       case 1:
-        return _folderRemoteRepository
-            .deleteById(folder.id)
+        return _folderRepository
+            .deleteFolder(folder.id)
             .awaitFold(
               (l) {
                 _toastNotifier.error(description: (l) => l.folderDeleteError(folder.name));

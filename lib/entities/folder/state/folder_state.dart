@@ -5,20 +5,20 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 import '../../../shared/cubit/entity_loader_cubit.dart';
-import '../api/folder_remote_repository.dart';
+import '../api/folder_repository.dart';
 import '../model/folder.dart';
 
-typedef FolderState = DataState<GetEntityError, Folder>;
+typedef FolderState = DataState<NetworkCallError, Folder>;
 
 extension FolderCubitX on BuildContext {
   FolderCubit get folderCubit => read<FolderCubit>();
 }
 
 @injectable
-final class FolderCubit extends EntityWithErrorCubit<GetEntityError, Folder> {
-  FolderCubit(this._folderRemoteRepository);
+final class FolderCubit extends EntityWithErrorCubit<NetworkCallError, Folder> {
+  FolderCubit(this._folderRepository);
 
-  final FolderRemoteRepository _folderRemoteRepository;
+  final FolderRepository _folderRepository;
 
   String? _folderId;
 
@@ -28,12 +28,12 @@ final class FolderCubit extends EntityWithErrorCubit<GetEntityError, Folder> {
   }
 
   @override
-  Future<Either<GetEntityError, Folder>> loadEntity() async {
+  Future<Either<NetworkCallError, Folder>> loadEntity() async {
     if (_folderId == null) {
       Logger.root.warning('Folder ID is not set. Cannot load folder.');
-      return left(GetEntityError.unknown);
+      return left(NetworkCallError.unknown);
     }
 
-    return _folderRemoteRepository.getById(_folderId!);
+    return _folderRepository.getFolderById(_folderId!);
   }
 }

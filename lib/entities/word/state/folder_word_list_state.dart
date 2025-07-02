@@ -12,7 +12,7 @@ import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
 import '../../../shared/values/assets.dart';
-import '../api/word_remote_repository.dart';
+import '../api/word_repository.dart';
 import '../model/word.dart';
 
 typedef FolderWordListState = DataState<NetworkCallError, List<Word>>;
@@ -24,13 +24,13 @@ extension FolderWordListCubitX on BuildContext {
 @injectable
 final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, List<Word>> {
   FolderWordListCubit(
-    this._wordRemoteRepository,
+    this._wordRepository,
     this._pageNavigator,
     this._bottomSheetManager,
     this._toastNotifier,
   );
 
-  final WordRemoteRepository _wordRemoteRepository;
+  final WordRepository _wordRepository;
   final PageNavigator _pageNavigator;
   final BottomSheetManager _bottomSheetManager;
   final ToastNotifier _toastNotifier;
@@ -50,7 +50,7 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
       return left(NetworkCallError.unknown);
     }
 
-    return _wordRemoteRepository.getAllByFolderId(_folderId!);
+    return _wordRepository.getWordsByFolder(_folderId!);
   }
 
   Future<void> onNewWordPressed() async {
@@ -99,8 +99,8 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
 
         emit(state.map((words) => words.replace((e) => e.id == updatedWord.id, (_) => updatedWord)));
       case 1:
-        return _wordRemoteRepository
-            .deleteById(word.id)
+        return _wordRepository
+            .deleteWord(word.id)
             .awaitFold(
               (l) {
                 _toastNotifier.error(description: (l) => l.wordDeleteError);

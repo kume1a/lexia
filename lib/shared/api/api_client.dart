@@ -24,13 +24,6 @@ part 'api_client.g.dart';
 abstract class ApiClient {
   factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
 
-  // Health Check
-  @GET('/')
-  Future<OkDto> healthCheck();
-
-  @GET('/health')
-  Future<OkDto> getHealth();
-
   // Authentication
   @GET('/api/v1/auth/status')
   Future<OkDto> getAuthStatus();

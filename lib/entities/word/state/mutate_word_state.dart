@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 import '../../../app/intl/extension/error_intl.dart';
 import '../../../app/navigation/page_navigator.dart';
 import '../../../shared/ui/toast_notifier.dart';
-import '../api/word_remote_repository.dart';
+import '../api/word_repository.dart';
 
 part 'mutate_word_state.freezed.dart';
 
@@ -35,10 +35,10 @@ extension MutateWordCubitX on BuildContext {
 
 @injectable
 class MutateWordCubit extends Cubit<MutateWordState> {
-  MutateWordCubit(this._wordRemoteRepository, this._toastNotifier, this._pageNavigator)
+  MutateWordCubit(this._wordRepository, this._toastNotifier, this._pageNavigator)
     : super(MutateWordState.initial());
 
-  final WordRemoteRepository _wordRemoteRepository;
+  final WordRepository _wordRepository;
   final ToastNotifier _toastNotifier;
   final PageNavigator _pageNavigator;
 
@@ -77,15 +77,19 @@ class MutateWordCubit extends Cubit<MutateWordState> {
     emit(state.copyWith(isSubmitting: true));
 
     if (_wordId == null) {
-      await _wordRemoteRepository
-          .create(text: state.text.getOrThrow, definition: state.definition.getOrThrow, folderId: _folderId!)
+      await _wordRepository
+          .createWord(
+            text: state.text.getOrThrow,
+            definition: state.definition.getOrThrow,
+            folderId: _folderId!,
+          )
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.wordCreatedSuccessfully);
             _pageNavigator.pop(result: r);
           });
     } else {
-      await _wordRemoteRepository
-          .updateById(_wordId!, text: state.text.getOrThrow, definition: state.definition.getOrThrow)
+      await _wordRepository
+          .updateWord(wordId: _wordId!, text: state.text.getOrThrow, definition: state.definition.getOrThrow)
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.wordUpdatedSuccessfully);
             _pageNavigator.pop(result: r);
@@ -103,7 +107,7 @@ class MutateWordCubit extends Cubit<MutateWordState> {
       return;
     }
 
-    return _wordRemoteRepository.getById(_wordId!).awaitFold(
+    return _wordRepository.getWordById(_wordId!).awaitFold(
       (err) => _toastNotifier.error(description: (l) => err.translate(l)),
       (word) {
         textFieldController.text = word.text;

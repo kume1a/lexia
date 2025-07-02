@@ -9,7 +9,7 @@ import '../../../app/intl/extension/error_intl.dart';
 import '../../../app/navigation/page_navigator.dart';
 import '../../../shared/ui/toast_notifier.dart';
 import '../api/after_auth.dart';
-import '../api/auth_service.dart';
+import '../api/auth_repository.dart';
 
 part 'sign_in_state.freezed.dart';
 
@@ -32,11 +32,11 @@ extension SignInCubitX on BuildContext {
 
 @injectable
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit(this._pageNavigator, this._authService, this._afterAuth, this._toastNotifier)
+  SignInCubit(this._pageNavigator, this._authRepository, this._afterAuth, this._toastNotifier)
     : super(SignInState.initial());
 
   final PageNavigator _pageNavigator;
-  final AuthService _authService;
+  final AuthRepository _authRepository;
   final AfterAuth _afterAuth;
   final ToastNotifier _toastNotifier;
 
@@ -60,8 +60,8 @@ class SignInCubit extends Cubit<SignInState> {
 
     emit(state.copyWith(isSubmitting: true));
 
-    await _authService
-        .signInWithEmailAndPassword(email: state.email.getOrThrow, password: state.password.getOrThrow)
+    await _authRepository
+        .emailSignIn(email: state.email.getOrThrow, password: state.password.getOrThrow)
         .awaitFold(
           (err) {
             _toastNotifier.error(description: (l) => err.translate(l), title: (l) => l.error);
