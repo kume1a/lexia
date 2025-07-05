@@ -18,7 +18,7 @@ class WordRepositoryImpl with SafeHttpRequestWrap implements WordRepository {
   final WordMapper _wordMapper;
 
   @override
-  Future<Either<NetworkCallError, Word>> createWord({
+  Future<Either<NetworkCallError, Word>> create({
     required String folderId,
     required String text,
     required String definition,
@@ -39,29 +39,30 @@ class WordRepositoryImpl with SafeHttpRequestWrap implements WordRepository {
   }
 
   @override
-  Future<Either<NetworkCallError, Word>> updateWord({
+  Future<Either<NetworkCallError, Word>> updateById({
     required String wordId,
     required String text,
     required String definition,
   }) {
     return callCatchHandleNetworkCallError(() async {
       final body = UpdateWordBody(text: text, definition: definition);
-      final wordWithFolderDto = await _apiClientProvider.get().updateWord(wordId, body);
+      final wordWithFolderDto = await _apiClientProvider.get().updateWordById(wordId, body);
       return _wordMapper.wordWithFolderDtoToDomain(wordWithFolderDto);
     });
   }
 
   @override
-  Future<Either<NetworkCallError, void>> deleteWord(String wordId) {
+  Future<Either<NetworkCallError, void>> deleteById(String wordId) {
     return callCatchHandleNetworkCallError(() async {
-      await _apiClientProvider.get().deleteWord(wordId);
+      await _apiClientProvider.get().deleteWordById(wordId);
     });
   }
 
   @override
-  Future<Either<NetworkCallError, List<Word>>> getWordsByFolder(String folderId) {
+  Future<Either<NetworkCallError, List<Word>>> getAllByFolderId(String folderId) {
     return callCatchHandleNetworkCallError(() async {
-      final wordDtos = await _apiClientProvider.get().getWordsByFolder(folderId);
+      final wordDtos = await _apiClientProvider.get().getWordsByFolderId(folderId);
+
       return wordDtos.map((dto) => _wordMapper.dtoToDomain(dto)).toList();
     });
   }

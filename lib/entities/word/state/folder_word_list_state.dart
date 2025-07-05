@@ -50,7 +50,7 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
       return left(NetworkCallError.unknown);
     }
 
-    return _wordRepository.getWordsByFolder(_folderId!);
+    return _wordRepository.getAllByFolderId(_folderId!);
   }
 
   Future<void> onNewWordPressed() async {
@@ -100,7 +100,7 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
         emit(state.map((words) => words.replace((e) => e.id == updatedWord.id, (_) => updatedWord)));
       case 1:
         return _wordRepository
-            .deleteWord(word.id)
+            .deleteById(word.id)
             .awaitFold(
               (l) {
                 _toastNotifier.error(description: (l) => l.wordDeleteError);

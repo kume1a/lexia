@@ -6,10 +6,10 @@ part 'word.freezed.dart';
 class Word with _$Word {
   const factory Word({
     required String id,
-    required String folderId,
-    required DateTime createdAt,
-    required DateTime updatedAt,
+    required DateTime? createdAt,
+    required DateTime? updatedAt,
     required String text,
     required String definition,
+    required String folderId,
   }) = _Word;
 }

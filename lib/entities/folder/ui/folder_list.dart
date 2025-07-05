@@ -10,6 +10,7 @@ import '../../../shared/util/color.dart';
 import '../../../shared/values/app_theme_extension.dart';
 import '../../../shared/values/assets.dart';
 import '../model/folder.dart';
+import '../model/folder_type.dart';
 import '../state/folder_list_state.dart';
 
 class FolderList extends StatelessWidget {
@@ -62,7 +63,7 @@ class _Item extends StatelessWidget {
               decoration: BoxDecoration(color: theme.colorScheme.secondary, shape: BoxShape.circle),
               alignment: Alignment.center,
               child: SvgPicture.asset(
-                Assets.svgBook,
+                folder.type == FolderType.folderCollection ? Assets.svgFolder : Assets.svgBook,
                 width: 16.r,
                 height: 16.r,
                 fit: BoxFit.scaleDown,
@@ -76,10 +77,12 @@ class _Item extends StatelessWidget {
                 children: [
                   Text(folder.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   SizedBox(height: 4.h),
-                  Text(
-                    '${l.numberOfWords(folder.wordCount)} · ${folder.languageFrom.translate(l)} > ${folder.languageTo.translate(l)}',
-                    style: TextStyle(fontSize: 12, color: theme.appThemeExtension?.elSecondary),
-                  ),
+                  if (folder.type != null)
+                    Text(switch (folder.type!) {
+                      FolderType.wordCollection =>
+                        '${l.numberOfWords(folder.wordCount)} · ${folder.languageFrom?.translate(l)} > ${folder.languageTo?.translate(l)}',
+                      FolderType.folderCollection => l.folder,
+                    }, style: TextStyle(fontSize: 12, color: theme.appThemeExtension?.elSecondary)),
                 ],
               ),
             ),

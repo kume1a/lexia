@@ -34,6 +34,6 @@ final class FolderCubit extends EntityWithErrorCubit<NetworkCallError, Folder> {
       return left(NetworkCallError.unknown);
     }
 
-    return _folderRepository.getFolderById(_folderId!);
+    return _folderRepository.getById(_folderId!);
   }
 }

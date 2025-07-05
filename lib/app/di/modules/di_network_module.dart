@@ -10,20 +10,20 @@ import '../injection_tokens.dart';
 @module
 abstract class DiSonifyClientModule {
   @lazySingleton
-  @Named(InjectionToken.noInterceptorDio)
-  Dio dio() {
-    return NetworkClientFactory.createNoInterceptorDio(
-      logPrint: Logger.root.finest,
-      // logPrint: null,
-    );
-  }
-
-  @lazySingleton
   @Named(InjectionToken.authenticatedDio)
   Dio authenticatedDio(AuthTokenStore authTokenStore, AfterSignOut afterSignOut) {
     return NetworkClientFactory.createAuthenticatedDio(
       authTokenStore: authTokenStore,
       afterExit: afterSignOut.call,
+      logPrint: Logger.root.finest,
+      // logPrint: Logger.root.finest,
+    );
+  }
+
+  @lazySingleton
+  @Named(InjectionToken.noInterceptorDio)
+  Dio dio() {
+    return NetworkClientFactory.createNoInterceptorDio(
       logPrint: Logger.root.finest,
       // logPrint: null,
     );

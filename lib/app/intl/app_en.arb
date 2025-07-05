@@ -83,6 +83,10 @@
   },
   "selectLanguageFrom": "Select a language from",
   "selectLanguageTo": "Select a language to",
+  "selectFolderType": "Select folder type",
+  "folderType": "Folder Type",
+  "wordCollection": "Word Collection",
+  "folderCollection": "Folder Collection",
   "english": "English",
   "georgian": "Georgian",
   "languageFrom": "Language From",
@@ -110,5 +114,6 @@
   "changeServerUrlOrigin": "Change Server URL Origin",
   "selectServerUrlOrigin": "Select Server URL Origin",
   "local": "Local",
-  "remote": "Remote"
+  "remote": "Remote",
+  "folder": "Folder"
 }

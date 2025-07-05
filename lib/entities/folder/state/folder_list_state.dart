@@ -70,7 +70,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
         emit(state.map((folders) => folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder)));
       case 1:
         return _folderRepository
-            .deleteFolder(folder.id)
+            .deleteById(folder.id)
             .awaitFold(
               (l) {
                 _toastNotifier.error(description: (l) => l.folderDeleteError(folder.name));

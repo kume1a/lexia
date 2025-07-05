@@ -21,14 +21,19 @@ part 'mutate_folder_state.freezed.dart';
 class MutateFolderState with _$MutateFolderState {
   const factory MutateFolderState({
     required Name folderName,
+    required FolderType folderType,
     Language? languageFrom,
     Language? languageTo,
     required bool validateForm,
     required bool isSubmitting,
   }) = _MutateFolderState;
 
-  factory MutateFolderState.initial() =>
-      MutateFolderState(folderName: Name.empty(), validateForm: false, isSubmitting: false);
+  factory MutateFolderState.initial() => MutateFolderState(
+    folderName: Name.empty(),
+    folderType: FolderType.wordCollection,
+    validateForm: false,
+    isSubmitting: false,
+  );
 }
 
 extension MutateFolderCubitX on BuildContext {
@@ -57,14 +62,33 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
     _folder = folder;
 
     if (_folder != null) {
-      emit(state.copyWith(folderName: Name(_folder!.name)));
+      emit(
+        state.copyWith(
+          folderName: Name(_folder!.name),
+          folderType: _folder!.type ?? state.folderType,
+          languageFrom: _folder!.languageFrom,
+          languageTo: _folder!.languageTo,
+        ),
+      );
 
       nameFieldController.text = _folder!.name;
     }
   }
 
-  void onNameChanged(String value) {
-    emit(state.copyWith(folderName: Name(value)));
+  Future<void> onFolderTypePressed() async {
+    final selectedType = await _bottomSheetManager.openOptionSelector<FolderType>(
+      header: (l) => l.selectFolderType,
+      options: [
+        SelectOption(value: FolderType.wordCollection, label: (l) => l.wordCollection),
+        SelectOption(value: FolderType.folderCollection, label: (l) => l.folderCollection),
+      ],
+    );
+
+    if (selectedType == null) {
+      return;
+    }
+
+    emit(state.copyWith(folderType: selectedType));
   }
 
   Future<void> onLanguageFromPressed() async {
@@ -87,10 +111,19 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
     emit(state.copyWith(languageTo: selectedLanguage));
   }
 
+  void onNameChanged(String value) {
+    emit(state.copyWith(folderName: Name(value)));
+  }
+
   Future<void> onSubmit() async {
     emit(state.copyWith(validateForm: true));
 
-    if (state.folderName.invalid || state.languageFrom == null || state.languageTo == null) {
+    bool isValidationFailed = state.folderName.invalid;
+    if (state.folderType == FolderType.wordCollection) {
+      isValidationFailed = isValidationFailed || state.languageFrom == null || state.languageTo == null;
+    }
+
+    if (isValidationFailed) {
       return;
     }
 
@@ -98,23 +131,25 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
 
     if (_folder == null) {
       await _folderRepository
-          .createFolder(
+          .create(
             name: state.folderName.getOrThrow,
-            type: FolderType.wordCollection,
-            languageFrom: state.languageFrom!,
-            languageTo: state.languageTo!,
+            type: state.folderType,
+            languageFrom: state.languageFrom,
+            languageTo: state.languageTo,
+            parentId: null,
           )
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.folderCreatedSuccessfully);
             _pageNavigator.pop(result: r);
           });
     } else {
-      await _folderRepository
-          .updateFolder(folderId: _folder!.id, name: state.folderName.getOrThrow)
-          .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
-            _toastNotifier.success(description: (l) => l.folderUpdatedSuccessfully);
-            _pageNavigator.pop(result: r);
-          });
+      await _folderRepository.updateById(folderId: _folder!.id, name: state.folderName.getOrThrow).awaitFold(
+        (err) => _toastNotifier.error(description: (l) => err.translate(l)),
+        (r) {
+          _toastNotifier.success(description: (l) => l.folderUpdatedSuccessfully);
+          _pageNavigator.pop(result: r);
+        },
+      );
     }
 
     emit(state.copyWith(isSubmitting: false));

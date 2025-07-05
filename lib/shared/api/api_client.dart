@@ -55,13 +55,13 @@ abstract class ApiClient {
   Future<FolderDto> createFolder(@Body() CreateFolderBody body);
 
   @PUT('/api/v1/folders/{folderId}')
-  Future<FolderDto> updateFolder(@Path('folderId') String folderId, @Body() UpdateFolderBody body);
+  Future<FolderDto> updateFolderById(@Path('folderId') String folderId, @Body() UpdateFolderBody body);
 
   @PUT('/api/v1/folders/{folderId}/move')
-  Future<FolderDto> moveFolder(@Path('folderId') String folderId, @Body() MoveFolderBody body);
+  Future<FolderDto> moveFolderById(@Path('folderId') String folderId, @Body() MoveFolderBody body);
 
   @DELETE('/api/v1/folders/{folderId}')
-  Future<void> deleteFolder(@Path('folderId') String folderId);
+  Future<void> deleteFolderById(@Path('folderId') String folderId);
 
   // Word Management
   @POST('/api/v1/words')
@@ -71,11 +71,11 @@ abstract class ApiClient {
   Future<WordWithFolderDto> getWordById(@Path('wordId') String wordId);
 
   @PUT('/api/v1/words/{wordId}')
-  Future<WordWithFolderDto> updateWord(@Path('wordId') String wordId, @Body() UpdateWordBody body);
+  Future<WordWithFolderDto> updateWordById(@Path('wordId') String wordId, @Body() UpdateWordBody body);
 
   @DELETE('/api/v1/words/{wordId}')
-  Future<void> deleteWord(@Path('wordId') String wordId);
+  Future<void> deleteWordById(@Path('wordId') String wordId);
 
   @GET('/api/v1/folders/{folderId}/words')
-  Future<List<WordDto>> getWordsByFolder(@Path('folderId') String folderId);
+  Future<List<WordDto>> getWordsByFolderId(@Path('folderId') String folderId);
 }

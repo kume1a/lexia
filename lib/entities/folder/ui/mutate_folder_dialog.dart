@@ -14,6 +14,7 @@ import '../../../shared/util/color.dart';
 import '../../../shared/values/app_theme_extension.dart';
 import '../../../shared/values/assets.dart';
 import '../model/folder.dart';
+import '../model/folder_type.dart';
 import '../model/language.dart';
 import '../state/mutate_folder_state.dart';
 
@@ -58,9 +59,27 @@ class _Content extends StatelessWidget {
                     SizedBox(height: 16.h),
                     _FieldFolderName(),
                     SizedBox(height: 8.h),
-                    _FieldLanguageFrom(),
-                    SizedBox(height: 8.h),
-                    _FieldLanguageTo(),
+                    if (folder == null)
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8.h),
+                        child: _FieldFolderType(),
+                      ),
+                    BlocBuilder<MutateFolderCubit, MutateFolderState>(
+                      buildWhen: (previous, current) => previous.folderType != current.folderType,
+                      builder: (_, state) {
+                        return switch (state.folderType) {
+                          FolderType.wordCollection => Column(
+                            children: [
+                              _FieldLanguageFrom(),
+                              SizedBox(height: 8.h),
+                              _FieldLanguageTo(),
+                              SizedBox(height: 8.h),
+                            ],
+                          ),
+                          FolderType.folderCollection => SizedBox.shrink(),
+                        };
+                      },
+                    ),
                     SizedBox(height: 12.h),
                     LoadingTextButton(
                       isLoading: state.isSubmitting,
@@ -103,6 +122,28 @@ class _FieldFolderName extends StatelessWidget {
       ),
       onChanged: context.mutateFolderCubit.onNameChanged,
       validator: (_) => context.mutateFolderCubit.state.folderName.errToString((err) => err.translate(l)),
+    );
+  }
+}
+
+class _FieldFolderType extends StatelessWidget {
+  const _FieldFolderType();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+
+    return BlocBuilder<MutateFolderCubit, MutateFolderState>(
+      buildWhen: (previous, current) => previous.folderType != current.folderType,
+      builder: (_, state) {
+        return DropdownFieldContainer<FolderType>(
+          hintText: l.folderType,
+          value: state.folderType,
+          valueToString: (value) => value.translate(l),
+          onPressed: context.mutateFolderCubit.onFolderTypePressed,
+          iconAssetName: Assets.svgFolder,
+        );
+      },
     );
   }
 }

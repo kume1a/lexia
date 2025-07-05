@@ -78,18 +78,14 @@ class MutateWordCubit extends Cubit<MutateWordState> {
 
     if (_wordId == null) {
       await _wordRepository
-          .createWord(
-            text: state.text.getOrThrow,
-            definition: state.definition.getOrThrow,
-            folderId: _folderId!,
-          )
+          .create(text: state.text.getOrThrow, definition: state.definition.getOrThrow, folderId: _folderId!)
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.wordCreatedSuccessfully);
             _pageNavigator.pop(result: r);
           });
     } else {
       await _wordRepository
-          .updateWord(wordId: _wordId!, text: state.text.getOrThrow, definition: state.definition.getOrThrow)
+          .updateById(wordId: _wordId!, text: state.text.getOrThrow, definition: state.definition.getOrThrow)
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.wordUpdatedSuccessfully);
             _pageNavigator.pop(result: r);

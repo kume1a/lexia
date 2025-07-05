@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'folder_type.dart';
 import 'language.dart';
 
 part 'folder.freezed.dart';
@@ -11,8 +12,11 @@ class Folder with _$Folder {
     required DateTime? createdAt,
     required DateTime? updatedAt,
     required String name,
+    required FolderType? type,
     required int wordCount,
-    required Language languageFrom,
-    required Language languageTo,
+    required Language? languageFrom,
+    required Language? languageTo,
+    required String? parentId,
+    required List<Folder> subfolders,
   }) = _Folder;
 }

@@ -37,7 +37,7 @@ class FolderRepositoryImpl with SafeHttpRequestWrap implements FolderRepository 
   }
 
   @override
-  Future<Either<NetworkCallError, Folder>> getFolderById(String folderId) {
+  Future<Either<NetworkCallError, Folder>> getById(String folderId) {
     return callCatchHandleNetworkCallError(() async {
       final folderDto = await _apiClientProvider.get().getFolderById(folderId);
       return _folderMapper.dtoToDomain(folderDto);
@@ -45,12 +45,12 @@ class FolderRepositoryImpl with SafeHttpRequestWrap implements FolderRepository 
   }
 
   @override
-  Future<Either<NetworkCallError, Folder>> createFolder({
+  Future<Either<NetworkCallError, Folder>> create({
     required String name,
     required FolderType type,
-    required Language languageFrom,
-    required Language languageTo,
-    String? parentId,
+    required Language? languageFrom,
+    required Language? languageTo,
+    required String? parentId,
   }) {
     return callCatchHandleNetworkCallError(() async {
       final body = CreateFolderBody(
@@ -66,27 +66,27 @@ class FolderRepositoryImpl with SafeHttpRequestWrap implements FolderRepository 
   }
 
   @override
-  Future<Either<NetworkCallError, Folder>> updateFolder({required String folderId, required String name}) {
+  Future<Either<NetworkCallError, Folder>> updateById({required String folderId, required String name}) {
     return callCatchHandleNetworkCallError(() async {
       final body = UpdateFolderBody(name: name);
-      final folderDto = await _apiClientProvider.get().updateFolder(folderId, body);
+      final folderDto = await _apiClientProvider.get().updateFolderById(folderId, body);
       return _folderMapper.dtoToDomain(folderDto);
     });
   }
 
   @override
-  Future<Either<NetworkCallError, Folder>> moveFolder({required String folderId, String? parentId}) {
+  Future<Either<NetworkCallError, Folder>> moveById({required String folderId, String? parentId}) {
     return callCatchHandleNetworkCallError(() async {
       final body = MoveFolderBody(parentId: parentId);
-      final folderDto = await _apiClientProvider.get().moveFolder(folderId, body);
+      final folderDto = await _apiClientProvider.get().moveFolderById(folderId, body);
       return _folderMapper.dtoToDomain(folderDto);
     });
   }
 
   @override
-  Future<Either<NetworkCallError, void>> deleteFolder(String folderId) {
+  Future<Either<NetworkCallError, void>> deleteById(String folderId) {
     return callCatchHandleNetworkCallError(() async {
-      await _apiClientProvider.get().deleteFolder(folderId);
+      await _apiClientProvider.get().deleteFolderById(folderId);
     });
   }
 }
