@@ -13,29 +13,29 @@ import '../../../shared/ui/loading_text_button.dart';
 import '../../../shared/util/color.dart';
 import '../../../shared/values/app_theme_extension.dart';
 import '../../../shared/values/assets.dart';
-import '../model/folder.dart';
 import '../model/folder_type.dart';
 import '../model/language.dart';
 import '../state/mutate_folder_state.dart';
 
 class MutateFolderDialog extends StatelessWidget {
-  const MutateFolderDialog({super.key, required this.folder});
+  const MutateFolderDialog({super.key, required this.folderId, required this.parentFolderId});
 
-  final Folder? folder;
+  final String? folderId;
+  final String? parentFolderId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<MutateFolderCubit>()..init(folder: folder),
-      child: _Content(folder: folder),
+      create: (_) => getIt<MutateFolderCubit>()..init(folderId: folderId, parentFolderId: parentFolderId),
+      child: _Content(folderId: folderId),
     );
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({required this.folder});
+  const _Content({required this.folderId});
 
-  final Folder? folder;
+  final String? folderId;
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +55,11 @@ class _Content extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(folder != null ? l.updateFolder : l.createFolder),
+                    Text(folderId != null ? l.updateFolder : l.createFolder),
                     SizedBox(height: 16.h),
                     _FieldFolderName(),
                     SizedBox(height: 8.h),
-                    if (folder == null)
+                    if (folderId == null)
                       Padding(
                         padding: EdgeInsets.only(bottom: 8.h),
                         child: _FieldFolderType(),

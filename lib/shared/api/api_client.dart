@@ -51,6 +51,9 @@ abstract class ApiClient {
   @GET('/api/v1/folders/{folderId}')
   Future<FolderDto> getFolderById(@Path('folderId') String folderId);
 
+  @GET('/api/v1/folders/{folderId}/subfolders')
+  Future<List<FolderDto>> getSubfoldersByFolderId(@Path('folderId') String folderId);
+
   @POST('/api/v1/folders')
   Future<FolderDto> createFolder(@Body() CreateFolderBody body);
 

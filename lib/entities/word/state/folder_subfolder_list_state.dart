@@ -3,6 +3,7 @@ import 'package:common_utilities/common_utilities.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 
 import '../../../app/navigation/page_navigator.dart';
 import '../../../pages/folder_page.dart';
@@ -11,39 +12,66 @@ import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
 import '../../../shared/values/assets.dart';
-import '../api/folder_repository.dart';
-import '../model/folder.dart';
-import '../util/folder_dialogs.dart';
+import '../../folder/api/folder_repository.dart';
+import '../../folder/model/folder.dart';
+import '../../folder/util/folder_dialogs.dart';
 
-typedef FolderListState = SimpleDataState<List<Folder>>;
+typedef FolderSubfolderListState = DataState<NetworkCallError, List<Folder>>;
 
-extension FolderListCubitX on BuildContext {
-  FolderListCubit get folderListCubit => read<FolderListCubit>();
+extension FolderSubfolderListCubitX on BuildContext {
+  FolderSubfolderListCubit get folderSubfolderListCubit => read<FolderSubfolderListCubit>();
 }
 
 @injectable
-final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
-  FolderListCubit(
+final class FolderSubfolderListCubit extends EntityWithErrorCubit<NetworkCallError, List<Folder>> {
+  FolderSubfolderListCubit(
     this._folderRepository,
-    this._folderDialogs,
+    this._pageNavigator,
     this._bottomSheetManager,
     this._toastNotifier,
-    this._pageNavigator,
-  ) {
+    this._folderDialogs,
+  );
+
+  final FolderRepository _folderRepository;
+  final PageNavigator _pageNavigator;
+  final BottomSheetManager _bottomSheetManager;
+  final ToastNotifier _toastNotifier;
+  final FolderDialogs _folderDialogs;
+
+  String? _folderId;
+
+  void init({required String folderId}) {
+    _folderId = folderId;
+
     loadEntityAndEmit();
   }
 
-  final FolderRepository _folderRepository;
-  final FolderDialogs _folderDialogs;
-  final BottomSheetManager _bottomSheetManager;
-  final ToastNotifier _toastNotifier;
-  final PageNavigator _pageNavigator;
-
   @override
-  Future<List<Folder>?> loadEntity() async {
-    final res = await _folderRepository.getUserFolders();
+  Future<Either<NetworkCallError, List<Folder>>> loadEntity() async {
+    if (_folderId == null) {
+      Logger.root.severe('Folder ID is null, cannot load folders.');
+      return left(NetworkCallError.unknown);
+    }
 
-    return res.rightOrNull;
+    return _folderRepository.getSubfoldersByFolderId(_folderId!);
+  }
+
+  Future<void> onNewFolderPressed() async {
+    if (_folderId == null) {
+      Logger.root.severe('Folder ID is null, cannot create a new folder.');
+      return;
+    }
+
+    final createdSubFolder = await _folderDialogs.showMutateFolderDialog(
+      folderId: null,
+      parentFolderId: _folderId,
+    );
+
+    if (createdSubFolder == null) {
+      return;
+    }
+
+    emit(state.map((subfolders) => [...subfolders, createdSubFolder]));
   }
 
   Future<void> onFolderMenuPressed(Folder folder) async {
@@ -84,16 +112,6 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
               },
             );
     }
-  }
-
-  Future<void> onCreateFolderPressed() async {
-    final createdFolder = await _folderDialogs.showMutateFolderDialog(folderId: null, parentFolderId: null);
-
-    if (createdFolder == null) {
-      return;
-    }
-
-    emit(state.map((folders) => [...folders, createdFolder]));
   }
 
   void onFolderPressed(Folder folder) {

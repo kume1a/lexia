@@ -20,6 +20,7 @@ part 'mutate_folder_state.freezed.dart';
 @freezed
 class MutateFolderState with _$MutateFolderState {
   const factory MutateFolderState({
+    required SimpleDataState<Folder> folder,
     required Name folderName,
     required FolderType folderType,
     Language? languageFrom,
@@ -29,6 +30,7 @@ class MutateFolderState with _$MutateFolderState {
   }) = _MutateFolderState;
 
   factory MutateFolderState.initial() => MutateFolderState(
+    folder: SimpleDataState.idle(),
     folderName: Name.empty(),
     folderType: FolderType.wordCollection,
     validateForm: false,
@@ -56,22 +58,39 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
 
   final nameFieldController = TextEditingController();
 
-  Folder? _folder;
+  String? _folderId;
+  String? _parentFolderId;
 
-  void init({required Folder? folder}) {
-    _folder = folder;
+  Future<void> init({required String? folderId, required String? parentFolderId}) async {
+    _folderId = folderId;
+    _parentFolderId = parentFolderId;
 
-    if (_folder != null) {
-      emit(
-        state.copyWith(
-          folderName: Name(_folder!.name),
-          folderType: _folder!.type ?? state.folderType,
-          languageFrom: _folder!.languageFrom,
-          languageTo: _folder!.languageTo,
-        ),
+    if (_folderId != null) {
+      emit(state.copyWith(folder: SimpleDataState.loading()));
+      final folderRes = await _folderRepository.getById(_folderId!);
+
+      folderRes.fold(
+        (err) {
+          emit(state.copyWith(folder: SimpleDataState.failure()));
+          _toastNotifier.error(description: (l) => err.translate(l));
+        },
+        (folder) {
+          _folderId = folder.id;
+          emit(state.copyWith(folder: SimpleDataState.success(folder)));
+
+          emit(
+            state.copyWith(
+              folderName: Name(folder.name),
+              folderType: folder.type ?? state.folderType,
+              languageFrom: folder.languageFrom,
+              languageTo: folder.languageTo,
+            ),
+          );
+
+          nameFieldController.text = folder.name;
+        },
       );
-
-      nameFieldController.text = _folder!.name;
+      return;
     }
   }
 
@@ -129,21 +148,21 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
 
     emit(state.copyWith(isSubmitting: true));
 
-    if (_folder == null) {
+    if (_folderId == null) {
       await _folderRepository
           .create(
             name: state.folderName.getOrThrow,
             type: state.folderType,
             languageFrom: state.languageFrom,
             languageTo: state.languageTo,
-            parentId: null,
+            parentId: _parentFolderId,
           )
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.folderCreatedSuccessfully);
             _pageNavigator.pop(result: r);
           });
     } else {
-      await _folderRepository.updateById(folderId: _folder!.id, name: state.folderName.getOrThrow).awaitFold(
+      await _folderRepository.updateById(folderId: _folderId!, name: state.folderName.getOrThrow).awaitFold(
         (err) => _toastNotifier.error(description: (l) => err.translate(l)),
         (r) {
           _toastNotifier.success(description: (l) => l.folderUpdatedSuccessfully);

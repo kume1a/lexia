@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../app/di/register_dependencies.dart';
 import '../app/intl/app_localizations.dart';
+import '../entities/folder/model/folder_type.dart';
 import '../entities/folder/state/folder_state.dart';
+import '../entities/word/state/folder_subfolder_list_state.dart';
 import '../entities/word/state/folder_word_list_state.dart';
 import '../entities/word/ui/folder_word_list.dart';
 
@@ -24,6 +26,7 @@ class FolderPage extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<FolderCubit>()..init(folderId: args.folderId)),
         BlocProvider(create: (_) => getIt<FolderWordListCubit>()..init(folderId: args.folderId)),
+        BlocProvider(create: (_) => getIt<FolderSubfolderListCubit>()..init(folderId: args.folderId)),
       ],
       child: _Content(),
     );
@@ -49,13 +52,26 @@ class _Content extends StatelessWidget {
           },
         ),
       ),
-      body: SafeArea(
-        child: RefreshIndicator(onRefresh: context.folderWordListCubit.onRefresh, child: FolderWordList()),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: context.folderWordListCubit.onNewWordPressed,
-        icon: const Icon(Icons.add),
-        label: Text(l.addNewWord),
+      body: SafeArea(child: FolderChildrenList()),
+      floatingActionButton: BlocBuilder<FolderCubit, FolderState>(
+        builder: (_, state) {
+          return state.maybeWhen(
+            orElse: () => SizedBox.shrink(),
+            success: (folder) => FloatingActionButton.extended(
+              onPressed: switch (folder.type) {
+                FolderType.wordCollection => context.folderWordListCubit.onNewWordPressed,
+                FolderType.folderCollection => context.folderSubfolderListCubit.onNewFolderPressed,
+                null => null,
+              },
+              icon: const Icon(Icons.add),
+              label: Text(switch (folder.type) {
+                FolderType.wordCollection => l.newWord,
+                FolderType.folderCollection => l.newFolder,
+                null => '',
+              }),
+            ),
+          );
+        },
       ),
     );
   }

@@ -6,7 +6,7 @@ import '../ui/mutate_folder_dialog.dart';
 
 @lazySingleton
 class FolderDialogs {
-  Future<Folder?> showMutateFolderDialog({Folder? folder}) {
-    return GlobalNavigator.dialog(MutateFolderDialog(folder: folder));
+  Future<Folder?> showMutateFolderDialog({required String? folderId, required String? parentFolderId}) {
+    return GlobalNavigator.dialog(MutateFolderDialog(folderId: folderId, parentFolderId: parentFolderId));
   }
 }

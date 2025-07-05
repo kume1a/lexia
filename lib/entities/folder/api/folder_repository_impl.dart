@@ -45,6 +45,14 @@ class FolderRepositoryImpl with SafeHttpRequestWrap implements FolderRepository 
   }
 
   @override
+  Future<Either<NetworkCallError, List<Folder>>> getSubfoldersByFolderId(String folderId) {
+    return callCatchHandleNetworkCallError(() async {
+      final folderDtos = await _apiClientProvider.get().getSubfoldersByFolderId(folderId);
+      return folderDtos.map((dto) => _folderMapper.dtoToDomain(dto)).toList();
+    });
+  }
+
+  @override
   Future<Either<NetworkCallError, Folder>> create({
     required String name,
     required FolderType type,

@@ -8,6 +8,7 @@ abstract class FolderRepository {
   Future<Either<NetworkCallError, List<Folder>>> getUserFolders();
   Future<Either<NetworkCallError, List<Folder>>> getRootFolders();
   Future<Either<NetworkCallError, Folder>> getById(String folderId);
+  Future<Either<NetworkCallError, List<Folder>>> getSubfoldersByFolderId(String folderId);
   Future<Either<NetworkCallError, Folder>> create({
     required String name,
     required FolderType type,

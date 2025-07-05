@@ -115,5 +115,8 @@
   "selectServerUrlOrigin": "Select Server URL Origin",
   "local": "Local",
   "remote": "Remote",
-  "folder": "Folder"
+  "folder": "Folder",
+  "newFolder": "New Folder",
+  "folderTypeNotSupported": "Folder type not supported",
+  "noFoldersYet": "No folders yet"
 }
