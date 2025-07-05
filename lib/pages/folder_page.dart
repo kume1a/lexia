@@ -5,9 +5,9 @@ import '../app/di/register_dependencies.dart';
 import '../app/intl/app_localizations.dart';
 import '../entities/folder/model/folder_type.dart';
 import '../entities/folder/state/folder_state.dart';
-import '../entities/word/state/folder_subfolder_list_state.dart';
+import '../entities/folder/state/folder_subfolder_list_state.dart';
+import '../entities/folder/ui/folder_children_list.dart';
 import '../entities/word/state/folder_word_list_state.dart';
-import '../entities/word/ui/folder_word_list.dart';
 
 class FolderPageArgs {
   FolderPageArgs({required this.folderId});

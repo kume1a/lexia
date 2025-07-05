@@ -44,7 +44,6 @@
       }
     }
   },
-  "addNewFolder": "Add New Folder",
   "folderCreatedSuccessfully": "Folder created successfully",
   "folderUpdatedSuccessfully": "Folder updated successfully",
   "entityNotFound": "Entity not found",
@@ -91,7 +90,6 @@
   "georgian": "Georgian",
   "languageFrom": "Language From",
   "languageTo": "Language To",
-  "addNewWord": "Add New Word",
   "wordCreatedSuccessfully": "Word created successfully",
   "wordUpdatedSuccessfully": "Word updated successfully",
   "stringIsTooLong": "String is too long",

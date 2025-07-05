@@ -153,8 +153,8 @@ class MutateFolderCubit extends Cubit<MutateFolderState> {
           .create(
             name: state.folderName.getOrThrow,
             type: state.folderType,
-            languageFrom: state.languageFrom,
-            languageTo: state.languageTo,
+            languageFrom: state.folderType == FolderType.wordCollection ? state.languageFrom : null,
+            languageTo: state.folderType == FolderType.wordCollection ? state.languageTo : null,
             parentId: _parentFolderId,
           )
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {

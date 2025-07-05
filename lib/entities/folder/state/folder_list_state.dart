@@ -41,7 +41,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
 
   @override
   Future<List<Folder>?> loadEntity() async {
-    final res = await _folderRepository.getUserFolders();
+    final res = await _folderRepository.getRootFolders();
 
     return res.rightOrNull;
   }

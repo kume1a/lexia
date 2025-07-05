@@ -12,9 +12,9 @@ import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
 import '../../../shared/values/assets.dart';
-import '../../folder/api/folder_repository.dart';
-import '../../folder/model/folder.dart';
-import '../../folder/util/folder_dialogs.dart';
+import '../api/folder_repository.dart';
+import '../model/folder.dart';
+import '../util/folder_dialogs.dart';
 
 typedef FolderSubfolderListState = DataState<NetworkCallError, List<Folder>>;
 

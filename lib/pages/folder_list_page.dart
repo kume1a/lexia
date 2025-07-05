@@ -30,7 +30,7 @@ class _Content extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: context.folderListCubit.onCreateFolderPressed,
         icon: const Icon(Icons.add),
-        label: Text(l.addNewFolder),
+        label: Text(l.newFolder),
       ),
     );
   }
