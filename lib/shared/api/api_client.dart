@@ -7,6 +7,11 @@ import '../../entities/folder/model/create_folder_body.dart';
 import '../../entities/folder/model/folder_dto.dart';
 import '../../entities/folder/model/move_folder_body.dart';
 import '../../entities/folder/model/update_folder_body.dart';
+import '../../entities/translate/model/detect_language_request_body.dart';
+import '../../entities/translate/model/detect_language_response_dto.dart';
+import '../../entities/translate/model/supported_languages_response_dto.dart';
+import '../../entities/translate/model/translate_request_body.dart';
+import '../../entities/translate/model/translate_response_dto.dart';
 import '../../entities/user/model/update_user_body.dart';
 import '../../entities/user/model/user_dto.dart';
 import '../../entities/word/model/create_word_body.dart';
@@ -81,4 +86,14 @@ abstract class ApiClient {
 
   @GET('/api/v1/folders/{folderId}/words')
   Future<List<WordDto>> getWordsByFolderId(@Path('folderId') String folderId);
+
+  // Translation
+  @POST('/api/v1/translate')
+  Future<TranslateResponseDto> translateText(@Body() TranslateRequestBody body);
+
+  @POST('/api/v1/translate/detect')
+  Future<DetectLanguageResponseDto> detectLanguage(@Body() DetectLanguageRequestBody body);
+
+  @GET('/api/v1/translate/languages')
+  Future<SupportedLanguagesResponseDto> getSupportedLanguages();
 }

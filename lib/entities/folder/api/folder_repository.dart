@@ -1,8 +1,8 @@
 import 'package:common_models/common_models.dart';
 
+import '../../../shared/model/language.dart';
 import '../model/folder.dart';
 import '../model/folder_type.dart';
-import '../model/language.dart';
 
 abstract class FolderRepository {
   Future<Either<NetworkCallError, List<Folder>>> getUserFolders();

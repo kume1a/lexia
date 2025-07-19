@@ -4,10 +4,10 @@ import 'package:common_utilities/common_utilities.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../shared/api/api_client.dart';
+import '../../../shared/model/language.dart';
 import '../model/create_folder_body.dart';
 import '../model/folder.dart';
 import '../model/folder_type.dart';
-import '../model/language.dart';
 import '../model/move_folder_body.dart';
 import '../model/update_folder_body.dart';
 import '../util/folder_mapper.dart';

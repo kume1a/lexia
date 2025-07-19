@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../shared/model/language.dart';
 import 'folder_type.dart';
-import 'language.dart';
 
 part 'folder_dto.freezed.dart';
 part 'folder_dto.g.dart';

@@ -8,13 +8,13 @@ import '../../../app/di/register_dependencies.dart';
 import '../../../app/intl/app_localizations.dart';
 import '../../../app/intl/extension/enum_intl.dart';
 import '../../../app/intl/extension/error_intl.dart';
+import '../../../shared/model/language.dart';
 import '../../../shared/ui/dropdown_container_field.dart';
 import '../../../shared/ui/loading_text_button.dart';
 import '../../../shared/util/color.dart';
 import '../../../shared/values/app_theme_extension.dart';
 import '../../../shared/values/assets.dart';
 import '../model/folder_type.dart';
-import '../model/language.dart';
 import '../state/mutate_folder_state.dart';
 
 class MutateFolderDialog extends StatelessWidget {
