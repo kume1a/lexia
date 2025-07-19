@@ -91,22 +91,24 @@ flutter:
 flutter_icons:
   android: 'launcher_icon'
   ios: true
-  image_path: 'assets/logo/logo.png'
-  image_path_android: 'assets/logo/logo_transparent_bg.png'
-  min_sdk_android: 21
+  image_path: 'assets/logo/logo_1024_whitebg.png'
+  image_path_android: 'assets/logo/logo_512_transparentbg.png'
 
-  remove_alpha_ios: true
+  adaptive_icon_foreground: 'assets/logo/logo_1024_safezone.png'
   adaptive_icon_background: '#ffffff'
+
+  min_sdk_android: 21
+  remove_alpha_ios: true
 
 flutter_native_splash:
   color: '#ffffff'
-  image: assets/logo/logo_1152.png
+  image: assets/logo/logo_1152_transparentbg.png
 
   android_gravity: center
   ios_content_mode: scaleAspectFit
   web_image_mode: contain
 
   android_12:
-    image: assets/logo/logo_960.png
+    image: assets/logo/logo_960_transparentbg.png
     color: '#ffffff'
     icon_background_color: '#ffffff'
