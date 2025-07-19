@@ -30,6 +30,7 @@ class MutateWordForm extends StatelessWidget {
                 _FieldWordText(),
                 SizedBox(height: 8.h),
                 _FieldWordDefinition(),
+                _TranslationSuggestions(),
                 SizedBox(height: 12.h),
                 LoadingTextButton(
                   isLoading: state.isSubmitting,
@@ -77,6 +78,93 @@ class _FieldWordDefinition extends StatelessWidget {
       validator: (_) => context.mutateWordCubit.state.definition.errToString((err) => err.translate(l)),
       minLines: 2,
       maxLines: 5,
+    );
+  }
+}
+
+class _TranslationSuggestions extends StatelessWidget {
+  const _TranslationSuggestions();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l = AppLocalizations.of(context);
+
+    return BlocBuilder<MutateWordCubit, MutateWordState>(
+      buildWhen: (previous, current) => previous.translationSuggestions != current.translationSuggestions,
+      builder: (context, state) {
+        return state.translationSuggestions.when(
+          idle: () => SizedBox.shrink(),
+          loading: () => Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.h),
+            child: Row(
+              children: [
+                SizedBox(width: 16.w, height: 16.w, child: CircularProgressIndicator(strokeWidth: 2)),
+                SizedBox(width: 8.w),
+                Text(
+                  l.gettingTranslationSuggestions,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          failure: (_) => SizedBox.shrink(),
+          success: (suggestions) {
+            if (suggestions.isEmpty) {
+              return SizedBox.shrink();
+            }
+
+            return Container(
+              margin: EdgeInsets.only(top: 8.h),
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+                border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.2)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l.translationSuggestions,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Wrap(
+                    spacing: 8.w,
+                    runSpacing: 4.h,
+                    children: suggestions.map((suggestion) {
+                      return InkWell(
+                        onTap: () => context.mutateWordCubit.onTranslationSuggestionSelected(suggestion.text),
+                        borderRadius: BorderRadius.circular(16.r),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                            border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
+                          ),
+                          child: Text(
+                            suggestion.text,
+                            style: TextStyle(fontSize: 13.sp, color: theme.colorScheme.primary),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

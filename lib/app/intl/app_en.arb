@@ -116,5 +116,7 @@
   "folder": "Folder",
   "newFolder": "New Folder",
   "folderTypeNotSupported": "Folder type not supported",
-  "noFoldersYet": "No folders yet"
+  "noFoldersYet": "No folders yet",
+  "gettingTranslationSuggestions": "Getting translation suggestions...",
+  "translationSuggestions": "Translation Suggestions"
 }

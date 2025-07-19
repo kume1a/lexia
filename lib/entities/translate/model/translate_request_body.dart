@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../shared/model/language.dart';
-
 part 'translate_request_body.freezed.dart';
 part 'translate_request_body.g.dart';
 
