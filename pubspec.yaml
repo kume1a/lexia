@@ -96,13 +96,17 @@ flutter_icons:
   min_sdk_android: 21
 
   remove_alpha_ios: true
-  adaptive_icon_background: '#ffffffff'
+  adaptive_icon_background: '#ffffff'
 
 flutter_native_splash:
-  color: '#000000'
-  image: assets/logo/logo_transparent_bg.png
+  color: '#ffffff'
+  image: assets/logo/logo_1152.png
+
+  android_gravity: center
+  ios_content_mode: scaleAspectFit
+  web_image_mode: contain
 
   android_12:
-    image: assets/logo/logo_transparent_bg.png
-    color: '#000000'
-    icon_background_color: '#000000'
+    image: assets/logo/logo_960.png
+    color: '#ffffff'
+    icon_background_color: '#ffffff'
