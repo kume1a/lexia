@@ -45,7 +45,7 @@ class AuthRepositoryImpl with SafeHttpRequestWrap implements AuthRepository {
       onResponseError: (response) {
         final errorDto = ErrorResponseDto.fromJson(response?.data);
 
-        return switch (errorDto.message) {
+        return switch (errorDto.error) {
           ApiExceptionMessageCode.invalidEmailOrPassword => const SignInError.invalidEmailOrPassword(),
           _ => const SignInError.unknown(),
         };
