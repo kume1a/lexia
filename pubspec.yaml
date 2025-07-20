@@ -102,10 +102,11 @@ flutter_icons:
 
 flutter_native_splash:
   color: '#ffffff'
-  image: assets/logo/logo_1152_transparentbg.png
+  image: assets/logo/logo_512_transparentbg.png
+  image_dark: assets/logo/logo_512_transparentbg.png
 
   android_gravity: center
-  ios_content_mode: scaleAspectFit
+  ios_content_mode: center
   web_image_mode: contain
 
   android_12:
