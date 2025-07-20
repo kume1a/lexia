@@ -25,7 +25,7 @@ jobs:
           cache: true
 
       - name: Extract version from pubspec.yaml
-        run: echo "VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')" >> $GITHUB_ENV
+        run: echo "VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}' | sed 's/+/-/')" >> $GITHUB_ENV
 
       - run: flutter pub get
 
@@ -65,7 +65,7 @@ jobs:
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: ${{ env.VERSION }}
           overwrite: true
-          asset_name: sonify-${{ env.VERSION }}.ipa
+          asset_name: lexia-${{ env.VERSION }}.ipa
           body: 'iOS release version ${{ env.VERSION }}'
 
       - name: Upload APK to release
@@ -75,5 +75,5 @@ jobs:
           file: build/app/outputs/flutter-apk/app-release.apk
           tag: ${{ env.VERSION }}
           overwrite: true
-          asset_name: sonify-${{ env.VERSION }}.apk
+          asset_name: lexia-${{ env.VERSION }}.apk
           body: 'Android release version ${{ env.VERSION }}'
