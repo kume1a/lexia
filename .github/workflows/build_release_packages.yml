@@ -38,8 +38,8 @@ jobs:
       - name: Build IPA
         run: |
           flutter build ios --release --no-codesign \
-            --dart-define=LOCAL_API_URL=${{ secrets.LOCAL_API_URL }} \
-            --dart-define=REMOTE_API_URL=${{ secrets.REMOTE_API_URL }} \
+            --dart-define=LOCAL_API_URL=${{ vars.LOCAL_API_URL }} \
+            --dart-define=REMOTE_API_URL=${{ vars.REMOTE_API_URL }} \
 
       - name: Create Payload folder
         run: mkdir Payload
@@ -55,8 +55,8 @@ jobs:
       - name: Build APK
         run: |
           flutter build apk --release \
-            --dart-define=LOCAL_API_URL=${{ secrets.LOCAL_API_URL }} \
-            --dart-define=REMOTE_API_URL=${{ secrets.REMOTE_API_URL }} \
+            --dart-define=LOCAL_API_URL=${{ vars.LOCAL_API_URL }} \
+            --dart-define=REMOTE_API_URL=${{ vars.REMOTE_API_URL }} \
 
       - name: Upload IPA to release
         uses: svenstaro/upload-release-action@v2
