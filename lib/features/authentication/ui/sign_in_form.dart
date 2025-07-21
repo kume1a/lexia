@@ -48,8 +48,7 @@ class SignInForm extends StatelessWidget {
                   onChanged: context.signInCubit.onEmailChanged,
                   validator: (_) => context.signInCubit.state.email.errToString((f) => f.translate(l)),
                 ),
-                SizedBox(height: 12.h),
-                SizedBox(height: 12.h),
+                SizedBox(height: 8.h),
                 PasswordField(
                   controller: context.signInCubit.passwordFieldController,
                   onChanged: context.signInCubit.onPasswordChanged,
