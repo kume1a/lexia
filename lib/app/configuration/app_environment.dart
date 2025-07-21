@@ -26,18 +26,11 @@ class AppEnvironment {
       _devSignInPassword = const String.fromEnvironment(_keyDevSignInPassword);
       _devSignInUsername = const String.fromEnvironment(_keyDevSignInUsername);
 
-      if (_localApiUrl.isEmpty ||
-          _remoteApiUrl.isEmpty ||
-          _devSignInEmail.isEmpty ||
-          _devSignInPassword.isEmpty ||
-          _devSignInUsername.isEmpty) {
+      if (_localApiUrl.isEmpty || _remoteApiUrl.isEmpty) {
         throw Exception(
-          'Missing environment variables'
+          'Missing required environment variables'
           '$_keyLocalApiUrl: $_localApiUrl, '
-          '$_keyRemoteApiUrl: $_remoteApiUrl, '
-          '$_keyDevSignInEmail: $_devSignInEmail, '
-          '$_keyDevSignInPassword: $_devSignInPassword'
-          '$_keyDevSignInUsername: $_devSignInUsername',
+          '$_keyRemoteApiUrl: $_remoteApiUrl, ',
         );
       }
 
