@@ -30,6 +30,8 @@ abstract final class AppTheme {
       backgroundColor: Palette.primaryContainer,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Palette.secondaryDark,
+      foregroundColor: Palette.onSecondaryDark,
       elevation: 0,
       focusElevation: 0,
       hoverElevation: 0,

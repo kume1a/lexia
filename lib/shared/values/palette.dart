@@ -8,6 +8,7 @@ class Palette {
   static const onSurface = Color(0xFF222222);
   static const secondary = Color(0xFF8E5C2C);
   static const onSecondary = Colors.white;
+  static const onSecondaryDark = Colors.white;
   static const secondaryDark = Color(0xFF55371a);
   static const secondaryLight = Color(0xFFa57d56);
 
