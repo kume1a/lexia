@@ -54,6 +54,7 @@ class _FieldWordText extends StatelessWidget {
     final l = AppLocalizations.of(context);
 
     return TextFormField(
+      autofocus: true,
       controller: context.mutateWordCubit.textFieldController,
       autocorrect: false,
       decoration: InputDecoration(hintText: l.text),
