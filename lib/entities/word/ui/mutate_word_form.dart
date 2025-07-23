@@ -120,7 +120,7 @@ class _TranslationSuggestions extends StatelessWidget {
 
             return Container(
               margin: EdgeInsets.only(top: 8.h),
-              padding: EdgeInsets.all(12.w),
+              padding: EdgeInsets.only(left: 12.w, bottom: 12.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
                 color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
@@ -129,36 +129,50 @@ class _TranslationSuggestions extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    l.translationSuggestions,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Wrap(
-                    spacing: 8.w,
-                    runSpacing: 4.h,
-                    children: suggestions.map((suggestion) {
-                      return InkWell(
-                        onTap: () => context.mutateWordCubit.onTranslationSuggestionSelected(suggestion.text),
-                        borderRadius: BorderRadius.circular(16.r),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.r),
-                            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                            border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
-                          ),
-                          child: Text(
-                            suggestion.text,
-                            style: TextStyle(fontSize: 13.sp, color: theme.colorScheme.primary),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          l.translationSuggestions,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                           ),
                         ),
-                      );
-                    }).toList(),
+                      ),
+                      SizedBox(width: 8.w),
+                      IconButton(
+                        icon: Icon(Icons.refresh, size: 16.w),
+                        onPressed: context.mutateWordCubit.onReloadTranslationSuggestions,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 12.w),
+                    child: Wrap(
+                      spacing: 8.w,
+                      runSpacing: 4.h,
+                      children: suggestions.map((suggestion) {
+                        return InkWell(
+                          onTap: () =>
+                              context.mutateWordCubit.onTranslationSuggestionSelected(suggestion.text),
+                          borderRadius: BorderRadius.circular(16.r),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                              border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
+                            ),
+                            child: Text(
+                              suggestion.text,
+                              style: TextStyle(fontSize: 13.sp, color: theme.colorScheme.primary),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               ),

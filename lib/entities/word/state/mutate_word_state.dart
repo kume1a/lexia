@@ -9,7 +9,6 @@ import 'package:logging/logging.dart';
 
 import '../../../app/intl/extension/error_intl.dart';
 import '../../../app/navigation/page_navigator.dart';
-import '../../../shared/model/language.dart';
 import '../../../shared/ui/toast_notifier.dart';
 import '../../folder/api/folder_repository.dart';
 import '../../folder/model/folder.dart';
@@ -111,10 +110,20 @@ class MutateWordCubit extends Cubit<MutateWordState> {
       emit(state.copyWith(translationSuggestions: SimpleDataState.idle()));
     } else {
       _translationDebounceTimer = Timer(
-        Duration(milliseconds: 200),
+        Duration(milliseconds: 400),
         () => _fetchTranslationSuggestions(text.trim()),
       );
     }
+  }
+
+  void onReloadTranslationSuggestions() {
+    final text = state.text.get;
+
+    if (text == null || text.isEmpty) {
+      return;
+    }
+
+    _fetchTranslationSuggestions(text);
   }
 
   void onDefinitionChanged(String definition) {
@@ -137,16 +146,11 @@ class MutateWordCubit extends Cubit<MutateWordState> {
 
     emit(state.copyWith(translationSuggestions: SimpleDataState.loading()));
 
-    try {
-      await _performTranslation(text, folder!.languageFrom!, folder.languageTo!);
-    } catch (e) {
-      Logger.root.warning('Translation error: $e');
-      emit(state.copyWith(translationSuggestions: SimpleDataState.failure()));
-    }
-  }
-
-  Future<void> _performTranslation(String text, Language from, Language to) async {
-    final result = await _translateService.translateText(text: text, languageFrom: from, languageTo: to);
+    final result = await _translateService.translateText(
+      text: text,
+      languageFrom: folder!.languageFrom!,
+      languageTo: folder.languageTo!,
+    );
 
     result.fold(
       (error) {
