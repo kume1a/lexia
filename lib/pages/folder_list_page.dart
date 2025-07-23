@@ -24,9 +24,7 @@ class _Content extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l.folders)),
-      body: SafeArea(
-        child: RefreshIndicator(onRefresh: context.folderListCubit.onRefresh, child: FolderList()),
-      ),
+      body: SafeArea(child: FolderList()),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: context.folderListCubit.onCreateFolderPressed,
         icon: const Icon(Icons.add),

@@ -31,10 +31,13 @@ class FolderWordList extends StatelessWidget {
               );
             }
 
-            return ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              itemCount: words.length,
-              itemBuilder: (_, index) => _Item(word: words[index]),
+            return RefreshIndicator(
+              onRefresh: context.folderWordListCubit.onRefresh,
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                itemCount: words.length,
+                itemBuilder: (_, index) => _Item(word: words[index]),
+              ),
             );
           },
         );

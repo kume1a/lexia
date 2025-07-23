@@ -17,18 +17,21 @@ class FolderList extends StatelessWidget {
           orElse: () => SizedBox.shrink(),
           loading: () => const Center(child: SmallCircularProgressIndicator()),
           success: (data) {
-            return ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              itemCount: data.length,
-              itemBuilder: (_, index) {
-                final folder = data[index];
+            return RefreshIndicator(
+              onRefresh: context.folderListCubit.onRefresh,
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                itemCount: data.length,
+                itemBuilder: (_, index) {
+                  final folder = data[index];
 
-                return FolderListItem(
-                  folder: folder,
-                  onPressed: () => context.folderListCubit.onFolderPressed(folder),
-                  onMenuPressed: () => context.folderListCubit.onFolderMenuPressed(folder),
-                );
-              },
+                  return FolderListItem(
+                    folder: folder,
+                    onPressed: () => context.folderListCubit.onFolderPressed(folder),
+                    onMenuPressed: () => context.folderListCubit.onFolderMenuPressed(folder),
+                  );
+                },
+              ),
             );
           },
         );

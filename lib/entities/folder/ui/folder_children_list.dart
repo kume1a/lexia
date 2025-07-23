@@ -63,18 +63,21 @@ class _SubfolderList extends StatelessWidget {
               );
             }
 
-            return ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              itemCount: subfolders.length,
-              itemBuilder: (_, index) {
-                final folder = subfolders[index];
+            return RefreshIndicator(
+              onRefresh: context.folderSubfolderListCubit.onRefresh,
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                itemCount: subfolders.length,
+                itemBuilder: (_, index) {
+                  final folder = subfolders[index];
 
-                return FolderListItem(
-                  folder: folder,
-                  onMenuPressed: () => context.folderSubfolderListCubit.onFolderMenuPressed(folder),
-                  onPressed: () => context.folderSubfolderListCubit.onFolderPressed(folder),
-                );
-              },
+                  return FolderListItem(
+                    folder: folder,
+                    onMenuPressed: () => context.folderSubfolderListCubit.onFolderMenuPressed(folder),
+                    onPressed: () => context.folderSubfolderListCubit.onFolderPressed(folder),
+                  );
+                },
+              ),
             );
           },
         );
