@@ -175,7 +175,8 @@ class MutateWordCubit extends Cubit<MutateWordState> {
           .create(text: state.text.getOrThrow, definition: state.definition.getOrThrow, folderId: _folderId!)
           .awaitFold((err) => _toastNotifier.error(description: (l) => err.translate(l)), (r) {
             _toastNotifier.success(description: (l) => l.wordCreatedSuccessfully);
-            _pageNavigator.pop(result: r);
+
+            _resetForm();
           });
     } else {
       await _wordRepository
@@ -206,5 +207,19 @@ class MutateWordCubit extends Cubit<MutateWordState> {
         emit(state.copyWith(text: RequiredString(word.text), definition: RequiredString(word.definition)));
       },
     );
+  }
+
+  void _resetForm() {
+    emit(
+      state.copyWith(
+        definition: RequiredString(''),
+        text: RequiredString(''),
+        validateForm: false,
+        translationSuggestions: SimpleDataState.idle(),
+      ),
+    );
+
+    textFieldController.clear();
+    definitionFieldController.clear();
   }
 }
