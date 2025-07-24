@@ -17,6 +17,7 @@ import '../../entities/user/model/user_dto.dart';
 import '../../entities/word/model/create_word_body.dart';
 import '../../entities/word/model/update_word_body.dart';
 import '../../entities/word/model/word_dto.dart';
+import '../../entities/word/model/word_duplicate_check_dto.dart';
 import '../../entities/word/model/word_with_folder_dto.dart';
 import '../../features/authentication/model/email_sign_in_body.dart';
 import '../../features/authentication/model/email_sign_up_body.dart';
@@ -86,6 +87,9 @@ abstract class ApiClient {
 
   @GET('/api/v1/folders/{folderId}/words')
   Future<List<WordDto>> getWordsByFolderId(@Path('folderId') String folderId);
+
+  @GET('/api/v1/words/check-duplicate')
+  Future<WordDuplicateCheckDto> checkWordDuplicate(@Query('text') String text);
 
   // Translation
   @POST('/api/v1/translate')

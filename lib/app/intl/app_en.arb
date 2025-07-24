@@ -118,5 +118,17 @@
   "folderTypeNotSupported": "Folder type not supported",
   "noFoldersYet": "No folders yet",
   "gettingTranslationSuggestions": "Getting translation suggestions...",
-  "translationSuggestions": "Translation Suggestions"
+  "translationSuggestions": "Translation Suggestions",
+  "duplicateWordMessage": "The word \"{wordText}\" already exists in your vocabulary.",
+  "@duplicateWordMessage": {
+    "description": "Message shown when a duplicate word is found",
+    "placeholders": {
+      "wordText": {
+        "type": "String"
+      }
+    }
+  },
+  "location": "Location",
+  "duplicateWordQuestion": "Do you want to proceed anyway?",
+  "createAnyway": "Proceed Anyway"
 }

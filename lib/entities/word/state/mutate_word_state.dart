@@ -15,6 +15,7 @@ import '../../folder/model/folder.dart';
 import '../../translate/model/translation_variant.dart';
 import '../../translate/service/translate_service.dart';
 import '../api/word_repository.dart';
+import '../util/word_popups.dart';
 
 part 'mutate_word_state.freezed.dart';
 
@@ -51,6 +52,7 @@ class MutateWordCubit extends Cubit<MutateWordState> {
     this._pageNavigator,
     this._translateService,
     this._folderRepository,
+    this._wordPopups,
   ) : super(MutateWordState.initial());
 
   final WordRepository _wordRepository;
@@ -58,6 +60,7 @@ class MutateWordCubit extends Cubit<MutateWordState> {
   final PageNavigator _pageNavigator;
   final TranslateService _translateService;
   final FolderRepository _folderRepository;
+  final WordPopups _wordPopups;
 
   final textFieldController = TextEditingController();
   final definitionFieldController = TextEditingController();
@@ -173,6 +176,27 @@ class MutateWordCubit extends Cubit<MutateWordState> {
     }
 
     emit(state.copyWith(isSubmitting: true));
+
+    final duplicateCheckResult = await _wordRepository.checkDuplicate(state.text.getOrThrow);
+
+    final shouldProceed = await duplicateCheckResult.fold((error) => Future.value(true), (
+      duplicateCheck,
+    ) async {
+      if (duplicateCheck.isDuplicate && duplicateCheck.word != null) {
+        if (_wordId != null && duplicateCheck.word!.id == _wordId) {
+          return true;
+        }
+
+        final userChoice = await _wordPopups.showWordDuplicateDialog(duplicateCheck.word!);
+        return userChoice == true;
+      }
+      return true;
+    });
+
+    if (!shouldProceed) {
+      emit(state.copyWith(isSubmitting: false));
+      return;
+    }
 
     if (_wordId == null) {
       await _wordRepository

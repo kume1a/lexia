@@ -7,6 +7,7 @@ import '../../../shared/api/api_client.dart';
 import '../model/create_word_body.dart';
 import '../model/update_word_body.dart';
 import '../model/word.dart';
+import '../model/word_duplicate_check.dart';
 import '../util/word_mapper.dart';
 import 'word_repository.dart';
 
@@ -64,6 +65,14 @@ class WordRepositoryImpl with SafeHttpRequestWrap implements WordRepository {
       final wordDtos = await _apiClientProvider.get().getWordsByFolderId(folderId);
 
       return wordDtos.map((dto) => _wordMapper.dtoToDomain(dto)).toList();
+    });
+  }
+
+  @override
+  Future<Either<NetworkCallError, WordDuplicateCheck>> checkDuplicate(String text) {
+    return callCatchHandleNetworkCallError(() async {
+      final duplicateCheckDto = await _apiClientProvider.get().checkWordDuplicate(text);
+      return _wordMapper.duplicateCheckDtoToDomain(duplicateCheckDto);
     });
   }
 }
