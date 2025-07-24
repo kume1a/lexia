@@ -1,5 +1,6 @@
 import '../../../entities/folder/model/folder_type.dart';
 import '../../../shared/model/language.dart';
+import '../../../shared/model/sort_order.dart';
 import '../app_localizations.dart';
 
 extension FolderTypeIntlX on FolderType {
@@ -16,6 +17,17 @@ extension LanguageIntlX on Language {
     return switch (this) {
       Language.english => l.english,
       Language.georgian => l.georgian,
+    };
+  }
+}
+
+extension SortOrderIntlX on SortOrder {
+  String translate(AppLocalizations l) {
+    return switch (this) {
+      SortOrder.nameAsc => l.sortOrderNameAsc,
+      SortOrder.nameDesc => l.sortOrderNameDesc,
+      SortOrder.dateAsc => l.sortOrderDateAsc,
+      SortOrder.dateDesc => l.sortOrderDateDesc,
     };
   }
 }

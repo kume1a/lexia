@@ -45,12 +45,29 @@ class _Content extends StatelessWidget {
         title: BlocBuilder<FolderCubit, FolderState>(
           builder: (_, state) {
             return state.maybeWhen(
-              loading: () => const Text('Loading...'),
+              loading: () => Text('${l.loading}...'),
               success: (folder) => Text(folder.name),
-              orElse: () => const Text('Folder'),
+              orElse: () => Text(l.folder),
             );
           },
         ),
+        actions: [
+          BlocBuilder<FolderCubit, FolderState>(
+            builder: (_, state) {
+              return state.maybeWhen(
+                success: (folder) => IconButton(
+                  onPressed: switch (folder.type) {
+                    FolderType.wordCollection => context.folderWordListCubit.onSortPressed,
+                    FolderType.folderCollection => context.folderSubfolderListCubit.onSortPressed,
+                    null => null,
+                  },
+                  icon: const Icon(Icons.sort),
+                ),
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(child: FolderChildrenList()),
       floatingActionButton: BlocBuilder<FolderCubit, FolderState>(

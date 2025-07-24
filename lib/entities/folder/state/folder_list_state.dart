@@ -5,11 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../app/navigation/page_navigator.dart';
+import '../../../features/user_preferences/api/user_preference_store.dart';
 import '../../../pages/folder_page.dart';
 import '../../../shared/cubit/entity_loader_cubit.dart';
+import '../../../shared/model/sort_order.dart';
 import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
+import '../../../shared/util/sortable_helper.dart';
+import '../../../shared/util/sorting_utils.dart';
 import '../../../shared/values/assets.dart';
 import '../api/folder_repository.dart';
 import '../model/folder.dart';
@@ -29,6 +33,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
     this._bottomSheetManager,
     this._toastNotifier,
     this._pageNavigator,
+    this._userPreferenceStore,
   ) {
     loadEntityAndEmit();
   }
@@ -38,12 +43,39 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
   final BottomSheetManager _bottomSheetManager;
   final ToastNotifier _toastNotifier;
   final PageNavigator _pageNavigator;
+  final UserPreferenceStore _userPreferenceStore;
+
+  SortOrder _currentSortOrder = SortOrder.nameAsc;
 
   @override
   Future<List<Folder>?> loadEntity() async {
-    final res = await _folderRepository.getRootFolders();
+    _currentSortOrder = await SortableHelper.loadSortOrder(_userPreferenceStore, isFolder: true);
 
-    return res.rightOrNull;
+    final res = await _folderRepository.getRootFolders();
+    final folders = res.rightOrNull;
+
+    if (folders == null) {
+      return null;
+    }
+
+    return SortingUtils.sortFolders(folders, _currentSortOrder);
+  }
+
+  Future<void> onSortPressed() async {
+    final selectedOption = await SortableHelper.showSortOptions(
+      bottomSheetManager: _bottomSheetManager,
+      currentSortOrder: _currentSortOrder,
+      getHeaderText: (l) => l.sortFoldersBy,
+    );
+
+    if (selectedOption == null || _currentSortOrder == selectedOption) {
+      return;
+    }
+
+    _currentSortOrder = selectedOption;
+    await SortableHelper.saveSortOrder(_userPreferenceStore, selectedOption, isFolder: true);
+
+    emit(state.map((folders) => SortingUtils.sortFolders(folders, _currentSortOrder)));
   }
 
   Future<void> onFolderMenuPressed(Folder folder) async {
@@ -70,7 +102,12 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
           return;
         }
 
-        emit(state.map((folders) => folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder)));
+        emit(
+          state.map((folders) {
+            final updatedFolders = folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder);
+            return SortingUtils.sortFolders(updatedFolders, _currentSortOrder);
+          }),
+        );
       case 1:
         return _folderRepository
             .deleteById(folder.id)
@@ -93,7 +130,7 @@ final class FolderListCubit extends EntityLoaderCubit<List<Folder>> {
       return;
     }
 
-    emit(state.map((folders) => [...folders, createdFolder]));
+    emit(state.map((folders) => SortingUtils.sortFolders([...folders, createdFolder], _currentSortOrder)));
   }
 
   void onFolderPressed(Folder folder) {

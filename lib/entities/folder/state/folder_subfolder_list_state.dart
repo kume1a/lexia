@@ -6,11 +6,15 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 import '../../../app/navigation/page_navigator.dart';
+import '../../../features/user_preferences/api/user_preference_store.dart';
 import '../../../pages/folder_page.dart';
 import '../../../shared/cubit/entity_loader_cubit.dart';
+import '../../../shared/model/sort_order.dart';
 import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
+import '../../../shared/util/sortable_helper.dart';
+import '../../../shared/util/sorting_utils.dart';
 import '../../../shared/values/assets.dart';
 import '../api/folder_repository.dart';
 import '../model/folder.dart';
@@ -30,6 +34,7 @@ final class FolderSubfolderListCubit extends EntityWithErrorCubit<NetworkCallErr
     this._bottomSheetManager,
     this._toastNotifier,
     this._folderDialogs,
+    this._userPreferenceStore,
   );
 
   final FolderRepository _folderRepository;
@@ -37,8 +42,10 @@ final class FolderSubfolderListCubit extends EntityWithErrorCubit<NetworkCallErr
   final BottomSheetManager _bottomSheetManager;
   final ToastNotifier _toastNotifier;
   final FolderDialogs _folderDialogs;
+  final UserPreferenceStore _userPreferenceStore;
 
   String? _folderId;
+  SortOrder _currentSortOrder = SortOrder.nameAsc;
 
   void init({required String folderId}) {
     _folderId = folderId;
@@ -53,7 +60,30 @@ final class FolderSubfolderListCubit extends EntityWithErrorCubit<NetworkCallErr
       return left(NetworkCallError.unknown);
     }
 
-    return _folderRepository.getSubfoldersByFolderId(_folderId!);
+    _currentSortOrder = await SortableHelper.loadSortOrder(_userPreferenceStore, isFolder: true);
+
+    final result = await _folderRepository.getSubfoldersByFolderId(_folderId!);
+
+    return result.map((folders) => SortingUtils.sortFolders(folders, _currentSortOrder));
+  }
+
+  SortOrder get currentSortOrder => _currentSortOrder;
+
+  Future<void> onSortPressed() async {
+    final selectedOption = await SortableHelper.showSortOptions(
+      bottomSheetManager: _bottomSheetManager,
+      currentSortOrder: _currentSortOrder,
+      getHeaderText: (l) => l.sortFoldersBy,
+    );
+
+    if (selectedOption == null || _currentSortOrder == selectedOption) {
+      return;
+    }
+
+    _currentSortOrder = selectedOption;
+    await SortableHelper.saveSortOrder(_userPreferenceStore, selectedOption, isFolder: true);
+
+    emit(state.map((folders) => SortingUtils.sortFolders(folders, _currentSortOrder)));
   }
 
   Future<void> onNewFolderPressed() async {
@@ -71,7 +101,11 @@ final class FolderSubfolderListCubit extends EntityWithErrorCubit<NetworkCallErr
       return;
     }
 
-    emit(state.map((subfolders) => [...subfolders, createdSubFolder]));
+    emit(
+      state.map(
+        (subfolders) => SortingUtils.sortFolders([...subfolders, createdSubFolder], _currentSortOrder),
+      ),
+    );
   }
 
   Future<void> onFolderMenuPressed(Folder folder) async {
@@ -98,7 +132,12 @@ final class FolderSubfolderListCubit extends EntityWithErrorCubit<NetworkCallErr
           return;
         }
 
-        emit(state.map((folders) => folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder)));
+        emit(
+          state.map((folders) {
+            final updatedFolders = folders.replace((e) => e.id == updatedFolder.id, (_) => updatedFolder);
+            return SortingUtils.sortFolders(updatedFolders, _currentSortOrder);
+          }),
+        );
       case 1:
         return _folderRepository
             .deleteById(folder.id)

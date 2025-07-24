@@ -130,5 +130,12 @@
   },
   "location": "Location",
   "duplicateWordQuestion": "Do you want to proceed anyway?",
-  "createAnyway": "Proceed Anyway"
+  "createAnyway": "Proceed Anyway",
+  "sortOrderNameAsc": "Name A-Z",
+  "sortOrderNameDesc": "Name Z-A",
+  "sortOrderDateAsc": "Date Oldest First",
+  "sortOrderDateDesc": "Date Newest First",
+  "sortFoldersBy": "Sort folders by",
+  "sortWordsBy": "Sort words by",
+  "loading": "Loading"
 }

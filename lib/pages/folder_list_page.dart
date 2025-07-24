@@ -23,7 +23,10 @@ class _Content extends StatelessWidget {
     final l = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l.folders)),
+      appBar: AppBar(
+        title: Text(l.folders),
+        actions: [IconButton(onPressed: context.folderListCubit.onSortPressed, icon: const Icon(Icons.sort))],
+      ),
       body: SafeArea(child: FolderList()),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: context.folderListCubit.onCreateFolderPressed,

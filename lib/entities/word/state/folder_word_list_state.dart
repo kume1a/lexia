@@ -5,11 +5,15 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 import '../../../app/navigation/page_navigator.dart';
+import '../../../features/user_preferences/api/user_preference_store.dart';
 import '../../../pages/mutate_word_page.dart';
 import '../../../shared/cubit/entity_loader_cubit.dart';
+import '../../../shared/model/sort_order.dart';
 import '../../../shared/ui/bottom_sheet/bottom_sheet_manager.dart';
 import '../../../shared/ui/bottom_sheet/select_option/select_option.dart';
 import '../../../shared/ui/toast_notifier.dart';
+import '../../../shared/util/sortable_helper.dart';
+import '../../../shared/util/sorting_utils.dart';
 import '../../../shared/values/assets.dart';
 import '../api/word_repository.dart';
 import '../model/word.dart';
@@ -27,14 +31,17 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
     this._pageNavigator,
     this._bottomSheetManager,
     this._toastNotifier,
+    this._userPreferenceStore,
   );
 
   final WordRepository _wordRepository;
   final PageNavigator _pageNavigator;
   final BottomSheetManager _bottomSheetManager;
   final ToastNotifier _toastNotifier;
+  final UserPreferenceStore _userPreferenceStore;
 
   String? _folderId;
+  SortOrder _currentSortOrder = SortOrder.nameAsc;
 
   void init({required String folderId}) {
     _folderId = folderId;
@@ -49,7 +56,30 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
       return left(NetworkCallError.unknown);
     }
 
-    return _wordRepository.getAllByFolderId(_folderId!);
+    _currentSortOrder = await SortableHelper.loadSortOrder(_userPreferenceStore, isFolder: false);
+
+    final result = await _wordRepository.getAllByFolderId(_folderId!);
+
+    return result.map((words) => SortingUtils.sortWords(words, _currentSortOrder));
+  }
+
+  SortOrder get currentSortOrder => _currentSortOrder;
+
+  Future<void> onSortPressed() async {
+    final selectedOption = await SortableHelper.showSortOptions(
+      bottomSheetManager: _bottomSheetManager,
+      currentSortOrder: _currentSortOrder,
+      getHeaderText: (l) => l.sortWordsBy,
+    );
+
+    if (selectedOption == null || _currentSortOrder == selectedOption) {
+      return;
+    }
+
+    _currentSortOrder = selectedOption;
+    await SortableHelper.saveSortOrder(_userPreferenceStore, selectedOption, isFolder: false);
+
+    emit(state.map((words) => SortingUtils.sortWords(words, _currentSortOrder)));
   }
 
   Future<void> onNewWordPressed() async {
@@ -90,17 +120,18 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
 
         onRefresh();
       case 1:
-        return _wordRepository
-            .deleteById(word.id)
-            .awaitFold(
-              (l) {
-                _toastNotifier.error(description: (l) => l.wordDeleteError);
-              },
-              (r) {
-                _toastNotifier.success(description: (l) => l.wordDeletedSuccessfully);
-                emit(state.map((folders) => folders.where((e) => e.id != word.id).toList()));
-              },
+        return _wordRepository.deleteById(word.id).awaitFold(
+          (l) => _toastNotifier.error(description: (l) => l.wordDeleteError),
+          (r) {
+            _toastNotifier.success(description: (l) => l.wordDeletedSuccessfully);
+            emit(
+              state.map((words) {
+                final filteredWords = words.where((e) => e.id != word.id).toList();
+                return SortingUtils.sortWords(filteredWords, _currentSortOrder);
+              }),
             );
+          },
+        );
     }
   }
 }
