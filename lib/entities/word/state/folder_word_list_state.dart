@@ -1,5 +1,4 @@
 import 'package:common_models/common_models.dart';
-import 'package:common_utilities/common_utilities.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -61,13 +60,9 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
 
     final args = MutateWordPageArgs(folderId: _folderId!, wordId: null);
 
-    final newWord = await _pageNavigator.toMutateWord(args);
+    await _pageNavigator.toMutateWord(args);
 
-    if (newWord == null) {
-      return;
-    }
-
-    emit(state.map((words) => [newWord, ...words]));
+    onRefresh();
   }
 
   Future<void> onWordMenuPressed(Word word) async {
@@ -91,13 +86,9 @@ final class FolderWordListCubit extends EntityWithErrorCubit<NetworkCallError, L
     switch (selectedOption) {
       case 0:
         final args = MutateWordPageArgs(folderId: _folderId!, wordId: word.id);
-        final updatedWord = await _pageNavigator.toMutateWord(args);
+        await _pageNavigator.toMutateWord(args);
 
-        if (updatedWord == null) {
-          return;
-        }
-
-        emit(state.map((words) => words.replace((e) => e.id == updatedWord.id, (_) => updatedWord)));
+        onRefresh();
       case 1:
         return _wordRepository
             .deleteById(word.id)

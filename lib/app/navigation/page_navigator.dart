@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:global_navigator/global_navigator.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 
-import '../../entities/word/model/word.dart';
 import '../../pages/folder_page.dart';
 import '../../pages/mutate_word_page.dart';
 import 'routes.dart';
@@ -28,14 +26,6 @@ class PageNavigator {
 
   Future<void> toFolder(FolderPageArgs args) => GlobalNavigator.pushNamed(Routes.folder, arguments: args);
 
-  Future<Word?> toMutateWord(MutateWordPageArgs args) async {
-    final res = await GlobalNavigator.pushNamed(Routes.mutateWord, arguments: args);
-
-    if (res is Word) {
-      return res;
-    } else {
-      Logger.root.warning('Expected Word type, but got ${res.runtimeType}');
-      return null;
-    }
-  }
+  Future<void> toMutateWord(MutateWordPageArgs args) =>
+      GlobalNavigator.pushNamed(Routes.mutateWord, arguments: args);
 }
